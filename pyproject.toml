@@ -1,0 +1,26 @@
+[tool.black]
+line-length = 120
+target_version = ['py38',]
+
+[tool.isort]
+profile = "black"
+
+[tool.bandit]
+exclude_dirs = ["tests",]
+include_dirs = ["pytry",]
+
+[tool.pylint.format]
+max-line-length=120
+
+[tool.pylint.messages_control]
+# disable=["C","R","W",]
+
+[tool.pylint.design]
+max-parents=13
+
+[tool.pylint.typecheck]
+ignored-modules=["pytry","tests",]
+
+[tool.pytest.ini_options]
+filterwarnings=["ignore::DeprecationWarning",]
+testpaths=["tests",]
