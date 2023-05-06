@@ -24,3 +24,12 @@ ignored-modules=["pytry","tests",]
 [tool.pytest.ini_options]
 filterwarnings=["ignore::DeprecationWarning",]
 testpaths=["tests",]
+
+
+[tool.pytype]
+
+# Space-separated list of files or directories to process.
+inputs = 'pytry'
+
+# Comma or space separated list of error names to ignore.
+disable = ['pyi-error', 'import-error']
