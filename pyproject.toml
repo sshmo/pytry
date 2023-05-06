@@ -24,7 +24,7 @@ ignored-modules=["pytry","tests",]
 [tool.pytest.ini_options]
 filterwarnings=["ignore::DeprecationWarning",]
 testpaths=["tests",]
-
+addopts = "--cov --cov-report term-missing"
 
 [tool.pytype]
 
