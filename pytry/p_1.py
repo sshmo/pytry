@@ -21,3 +21,26 @@ Input:
 Output:
 678 3
 """
+
+
+def get_nums(input_func):
+    """reads 10 numbers from the input and returns list of them"""
+    nums = []
+    while True:
+        num = input_func()
+        num = int(num) if num.isdigit() else None
+        _ = nums.append(num) if num else print("Not a number!")
+        if len(nums) == 10:
+            break
+    return nums
+
+
+def main():  # pragma: no cover
+    """reads 10 numbers from the input and prints the numbers"""
+
+    numbers = get_nums(input)
+    print(numbers)
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()
