@@ -1,4 +1,6 @@
 """
+The max number that has the highest number of prime factors.
+
 Write a program that:
 
     reads 10 numbers from the input.
@@ -27,9 +29,13 @@ from typing import Any, Dict, List
 
 def get_nums(input_func: Any) -> List[int]:
     """
-    reads 10 numbers from the input and returns list of them
-    :param input_func: a function for generwtiong input strings
-    :return  a list of integers
+    Given random number of input strings; returns list of 10 integer numbers.
+
+    Args:
+        input_func: a function for generating input numbers.
+
+    Returns:
+        a list of integers.
     """
     nums = []
     while True:
@@ -43,10 +49,14 @@ def get_nums(input_func: Any) -> List[int]:
 
 def has_prime_factor(number: int, primes: List[int]) -> bool:
     """
-    given prime list, checks if number has prime factors
-    :param number: an integer to check for prime factor
-    :param primes: list of prime factors to chack
-    :return: bool: return True or False
+    Given prime list, checks if number has prime factors.
+
+    Args:
+        number: an integer to check for prime factor.
+        primes: list of prime factors to check.
+
+    Returns:
+        is prime or not.
     """
     for prime in primes:
         if number > prime and number % prime == 0:
@@ -56,9 +66,13 @@ def has_prime_factor(number: int, primes: List[int]) -> bool:
 
 def get_prime_list(nums: List[int]) -> List[int]:
     """
-    given numbers list, returns all prime numbers lower than max number
-    :param nums: list of prime factors tp chack
-    :return: all prime numbers lower than max number
+    Given numbers list, returns all prime numbers lower than max number.
+
+    Args:
+        nums: all input numbers.
+
+    Returns:
+        all prime numbers lower than max number.
     """
     max_num = max(nums) + 1
     primes = []
@@ -69,8 +83,16 @@ def get_prime_list(nums: List[int]) -> List[int]:
 
 
 def get_prime_count(nums: List, prime_list) -> Dict[int, int]:
-    "given numbers list, returns count of prime factors for each number"
+    """
+    Given numbers list, returns count of prime factors for each number.
 
+    Args:
+        nums: all input numbers.
+        prime_list: all prime numbers lower than max number.
+
+    Returns:
+        count of prime factors for each number.
+    """
     factor_num = {}
     for number in nums:
         factor_num[number] = 0
@@ -81,12 +103,18 @@ def get_prime_count(nums: List, prime_list) -> Dict[int, int]:
 
 
 def main(input_func: Any) -> str:
-    """reads 10 numbers from the input and prints max count of prime factors for max number"""
+    """
+    Given 10 numbers from the input; prints max count of prime factors for the max number.
 
+    Args:
+        input_func: a function for generating input numbers.
+
+    Returns:
+        max count of prime factors for the max number.
+    """
     numbers = get_nums(input_func)
     prime_list = get_prime_list(numbers)
     factor_count = get_prime_count(numbers, prime_list)
-    print(factor_count)
     max_value = max(factor_count.values())
     keys = [key for key, value in factor_count.items() if value == max_value]
     return f"{max(keys)} {max_value}"
