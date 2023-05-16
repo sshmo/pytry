@@ -1,7 +1,4 @@
 -r base.txt
 pytest==7.3.1
-pre-commit==3.3.1
 pytest-asyncio==0.21.0
 pytest-cov==4.0.0
-pytype==2023.4.27
-pydocstyle==6.3.0
