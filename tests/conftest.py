@@ -1,12 +1,17 @@
+"""pytest entry config file."""
+
 from pathlib import Path
+
 import pytest
 from pyinstrument import Profiler
 
 TESTS_ROOT = Path.cwd()
 
+
 @pytest.fixture(autouse=True)
 def auto_profile(request):
-    PROFILE_ROOT = (TESTS_ROOT / ".profiles")
+    """Profiling fixture from pyinstrument for profiling tests."""
+    PROFILE_ROOT = TESTS_ROOT / ".profiles"
     # Turn profiling on
     profiler = Profiler()
     profiler.start()
