@@ -39,29 +39,25 @@ def get_nums(input_func: Any) -> List[int]:
     """
     nums = []
     while True:
-        num = input_func()
-        num = int(num) if num.isdigit() else None
-        _ = nums.append(num) if num else print("Not a number!")
+        num: str = input_func()
+        number = int(num) if num.isdigit() else None
+        _ = nums.append(number) if number else print("Not a number!")
         if len(nums) == 10:
             break
     return nums
 
 
-def has_prime_factor(number: int, primes: List[int]) -> bool:
+def is_prime(num: int):
     """
-    Given prime list, checks if number has prime factors.
+    Check if number is prime.
 
     Args:
-        number: an integer to check for prime factor.
-        primes: list of prime factors to check.
+        num: an integer.
 
     Returns:
-        is prime or not.
+        true if prime else false.
     """
-    for prime in primes:
-        if number > prime and number % prime == 0:
-            return True
-    return False
+    return all(num % x != 0 for x in range(2, int(num**0.5) + 1)) if num > 1 else False
 
 
 def get_prime_list(nums: List[int]) -> List[int]:
@@ -77,7 +73,7 @@ def get_prime_list(nums: List[int]) -> List[int]:
     max_num = max(nums) + 1
     primes = []
     for i in range(2, max_num):
-        if not has_prime_factor(i, primes):
+        if is_prime(i):
             primes.append(i)
     return primes
 

@@ -1,7 +1,9 @@
 import random
 from string import ascii_letters
 
-from pytry.p_1 import get_nums, get_prime_count, get_prime_list, has_prime_factor, main
+import pytest
+
+from pytry.p_1 import get_nums, get_prime_count, get_prime_list, is_prime, main
 
 
 def mock_input():
@@ -15,9 +17,10 @@ def test_get_nums():
         assert isinstance(num, int)
 
 
-def test_has_prime_factor():
-    assert not (has_prime_factor(2, [2]))
-    assert has_prime_factor(4, [2])
+def test_is_prime():
+    assert not is_prime(0)
+    assert not is_prime(1)
+    assert is_prime(47)
 
 
 def test_get_prime_list():
@@ -51,3 +54,10 @@ def test_main():
 
     data = [123, 43, 54, 12, 76, 84, 98, 678, 543, 231]
     assert main(lambda: str(data.pop())) == "678 3"
+
+
+@pytest.mark.skip("performance test on pig numbers")
+def test_main_big_number():
+
+    data = [123, 43, 54, 12, 76, 84, 98, 678, 543, 231, 198765]
+    assert main(lambda: str(data.pop())) == "198765 4"
