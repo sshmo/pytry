@@ -1,3 +1,5 @@
+import pandas as pd
+
 from pytry.p_2 import score_board
 
 
@@ -8,28 +10,31 @@ def test_get_other_side():
 
 
 def test_update_scores():
-    scores = {"A": {"wins": 0, "loses": 0, "draws": 0, "goal_difference": 0, "points": 0, "alpha_points": 0}}
+    scores = pd.DataFrame(
+        data=[[0, 0, 0, 0, 0]], columns=["wins", "loses", "draws", "goal_difference", "points"], index=["A"]
+    )
 
     game = {"A": 1, "B": 1}
     scores = score_board.update_scores(scores, game, "A", "B")
-    assert scores["A"]["draws"] == 1
-    assert scores["A"]["points"] == 1
-    assert scores["A"]["goal_difference"] == 0
+
+    assert scores.at["A", "draws"] == 1
+    assert scores.at["A", "points"] == 1
+    assert scores.at["A", "goal_difference"] == 0
 
     game = {"A": 2, "C": 1}
     scores = score_board.update_scores(scores, game, "A", "C")
-    assert scores["A"]["wins"] == 1
-    assert scores["A"]["points"] == 4
-    assert scores["A"]["goal_difference"] == 1
+    assert scores.at["A", "wins"] == 1
+    assert scores.at["A", "points"] == 4
+    assert scores.at["A", "goal_difference"] == 1
 
     game = {"A": 1, "D": 3}
     scores = score_board.update_scores(scores, game, "A", "D")
-    assert scores["A"]["loses"] == 1
-    assert scores["A"]["points"] == 4
-    assert scores["A"]["goal_difference"] == -1
+    assert scores.at["A", "loses"] == 1
+    assert scores.at["A", "points"] == 4
+    assert scores.at["A", "goal_difference"] == -1
 
 
-def test_main():
+def test_score_board_main():
     data = [
         "2-2",
         "2-1",
