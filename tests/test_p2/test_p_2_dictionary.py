@@ -1,4 +1,4 @@
-from pytry.p_2_dictionary import score_board
+from pytry.p_2.p_2_dictionary import score_board
 
 
 def test_get_other_side():
@@ -11,19 +11,19 @@ def test_update_scores():
     scores = {"A": {"wins": 0, "loses": 0, "draws": 0, "goal_difference": 0, "points": 0, "alpha_points": 0}}
 
     game = {"A": 1, "B": 1}
-    scores = score_board.update_scores(scores, game, "A", "B")
+    scores = score_board.update_country_scores(scores, game, "A", "B")
     assert scores["A"]["draws"] == 1
     assert scores["A"]["points"] == 1
     assert scores["A"]["goal_difference"] == 0
 
     game = {"A": 2, "C": 1}
-    scores = score_board.update_scores(scores, game, "A", "C")
+    scores = score_board.update_country_scores(scores, game, "A", "C")
     assert scores["A"]["wins"] == 1
     assert scores["A"]["points"] == 4
     assert scores["A"]["goal_difference"] == 1
 
     game = {"A": 1, "D": 3}
-    scores = score_board.update_scores(scores, game, "A", "D")
+    scores = score_board.update_country_scores(scores, game, "A", "D")
     assert scores["A"]["loses"] == 1
     assert scores["A"]["points"] == 4
     assert scores["A"]["goal_difference"] == -1
