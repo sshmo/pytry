@@ -51,36 +51,29 @@ class MaxPrime:
         return nums
 
     @staticmethod
-    def has_prime_factor(number: int, primes: List[int]) -> bool:
+    def is_prime(num: int):
         """
-        Given prime list, checks if number has prime factors.
-
+        Check if number is prime.
         Args:
-            number: an integer to check for prime factor.
-            primes: list of prime factors to check.
-
+            num: an integer.
         Returns:
-            is prime or not.
+            true if prime else false.
         """
-        for prime in primes:
-            if number > prime and number % prime == 0:
-                return True
-        return False
+        return all(num % x != 0 for x in range(2, int(num**0.5) + 1)) if num > 1 else False
+
 
     def get_prime_list(self, nums: List[int]) -> List[int]:
         """
         Given numbers list, returns all prime numbers lower than max number.
-
         Args:
             nums: all input numbers.
-
         Returns:
             all prime numbers lower than max number.
         """
         max_num = max(nums) + 1
         primes = []
         for i in range(2, max_num):
-            if not self.has_prime_factor(i, primes):
+            if self.is_prime(i):
                 primes.append(i)
         return primes
 
