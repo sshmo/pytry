@@ -42,7 +42,7 @@ def test_get_prime_count():
     assert factor_num
 
 
-def test_main():
+def test_max_prime_main():
 
     data = [123, 43, 54, 12, 76, 84, 98, 678, 543, 231]
     assert max_prime.main(lambda: str(data.pop())) == "678 3"
