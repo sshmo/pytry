@@ -38,10 +38,9 @@ Portugal  wins:1 , loses:1 , draws:1 , goal difference:0 , points:4
 Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 """
 
-import sys
 from typing import Any, Dict, List, Set, Tuple
 
-EPS = sys.float_info.epsilon
+import pandas as pd
 
 
 class ScoreBoard:
@@ -98,7 +97,7 @@ class ScoreBoard:
         return other_side
 
     @staticmethod
-    def update_scores(scores: Dict[str, Dict], game: Dict[str, str], country: str, other_side: str) -> Dict[str, Dict]:
+    def update_scores(scores: pd.DataFrame, game: Dict[str, str], country: str, other_side: str) -> pd.DataFrame:
         """
         Update scores of a country for a single game.
 
@@ -109,31 +108,33 @@ class ScoreBoard:
             other_side: the the other country like "B".
 
         Returns:
-            the the other country like "B"
+            updated scores for each country
         """
-        if country[0] < other_side[0]:
-            scores[country]["alpha_points"] += EPS
         goal_difference = int(game[country]) - int(game[other_side])
-        scores[country]["goal_difference"] += goal_difference
+        scores.at[country, "goal_difference"] += goal_difference
         if goal_difference == 0:
-            scores[country]["draws"] += 1
-            scores[country]["points"] += 1
-            scores[country]["alpha_points"] += 1
+            scores.at[country, "draws"] += 1
+            scores.at[country, "points"] += 1
         elif goal_difference > 0:
-            scores[country]["wins"] += 1
-            scores[country]["points"] += 3
-            scores[country]["alpha_points"] += 3
+            scores.at[country, "wins"] += 1
+            scores.at[country, "points"] += 3
         elif goal_difference < 0:
-            scores[country]["loses"] += 1
+            scores.at[country, "loses"] += 1
 
         return scores
 
-    def create_score_board_data(self, games: List[Dict[str, str]], countries: Set[str]) -> Dict[str, Dict]:
+    def create_score_board_data(self, games: List[Dict[str, str]], countries: Set[str]) -> pd.DataFrame:
         """Given games and countries; calculate scores for all countries."""
-        scores = {}
+        initial_data = []
+        index_labels = []
         for country in countries:
-            scores[country] = {"wins": 0, "loses": 0, "draws": 0, "goal_difference": 0, "points": 0, "alpha_points": 0}
+            index_labels.append(country)
+            initial_data.append([0, 0, 0, 0, 0])
+        scores = pd.DataFrame(
+            initial_data, columns=["wins", "loses", "draws", "goal_difference", "points"], index=index_labels
+        )
 
+        for country in countries:
             for game in games:
                 if country in game:
                     other_side = self.get_other_side(game, country)
@@ -141,21 +142,30 @@ class ScoreBoard:
 
         return scores
 
+    @staticmethod
+    def create_score_board_result(scores: pd.DataFrame) -> str:
+        """Given scores data; create score board for all countries."""
+        scores.sort_index(inplace=True)
+        scores.sort_values(by=["points"], inplace=True, ascending=False)
+        score_board_result = ""
+        for country, row in scores.iterrows():
+            score_board_result += (
+                f"{country}  "
+                f"wins:{row['wins']} , "
+                f"loses:{row['loses']} , "
+                f"draws:{row['draws']} , "
+                f"goal difference:{row['goal_difference']} , "
+                f"points:{row['points']}\n"
+            )
+
+        return score_board_result
+
     def main(self, input_func: Any) -> str:
         """Given data from the input; prints score board result."""
         games, countries = self.get_data(input_func)
         scores = self.create_score_board_data(games, countries)
-        soretd_countries = sorted(scores, key=lambda x: scores[x]["alpha_points"], reverse=True)
-        score_board_result = ""
-        for country in soretd_countries:
-            score_board_result += (
-                f"{country}  "
-                f"wins:{scores[country]['wins']} , "
-                f"loses:{scores[country]['loses']} , "
-                f"draws:{scores[country]['draws']} , "
-                f"goal difference:{scores[country]['goal_difference']} , "
-                f"points:{scores[country]['points']}\n"
-            )
+        score_board_result = self.create_score_board_result(scores)
+
         return score_board_result
 
 
