@@ -49,11 +49,13 @@ def test_max_prime_main():
 
     data = [123, 43, 54, 12, 76, 84, 98, 678, 543, 231]
     max_prime = MaxPrime(lambda: str(data.pop()))
-    assert max_prime.main() == "678 3"
+    max_prime.main()
+    assert max_prime.__repr__() == "678 3"
 
 
 def test_max_prime_big_number_main():
 
     data = [123, 43, 54, 12, 76, 84, 98, 678, 543, 231, 123451]
     max_prime = MaxPrime(lambda: str(data.pop()))
-    assert max_prime.main() == "678 3"
+    max_prime.main()
+    assert max_prime.__repr__() == "678 3"

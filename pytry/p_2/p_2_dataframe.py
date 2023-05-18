@@ -6,10 +6,22 @@ from pytry.p_2.p_2_base import BaseScoreBoard
 
 
 class DFScoreBoard(BaseScoreBoard):
-    """DFScoreBoard."""
+    """
+    DFScoreBoard.
+
+    Attributes:
+        games: List of games. like [{"A": "1", "B": "1"}, {"A": 1, "C": "3"}].
+        countries: Set of countries. like {"A", "B", "C"}.
+        score_board: score_board data structure.
+    """
 
     def __init__(self, input_func) -> None:
-        """Given input_func; returns games, countries, initial_score_board."""
+        """
+        Given input_func; Inits games, countries and score_board.
+
+        Args:
+            input_func: A function for generating input data.
+        """
         super().__init__(input_func)
         initial_data = []
         index_labels = []
@@ -25,8 +37,9 @@ class DFScoreBoard(BaseScoreBoard):
         """Get row."""
         return scores.loc[country]
 
-    def create_score_board_result(self, score_board_data: pd.DataFrame) -> str:
-        """Given scores dataframe; create score board for all countries."""
+    def __repr__(self) -> str:
+        """Given scores dataframe; create score board representation for all countries."""
+        score_board_data: pd.DataFrame = self.score_board
         score_board_data = score_board_data.sort_index().sort_values(by=["points"], ascending=False)
         score_board_result = ""
         for country, row in score_board_data.iterrows():
@@ -37,4 +50,4 @@ class DFScoreBoard(BaseScoreBoard):
 
 if __name__ == "__main__":  # pragma: no cover
     score_board = DFScoreBoard(input)
-    print(score_board.main())
+    print(score_board)

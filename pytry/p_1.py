@@ -28,17 +28,21 @@ from typing import Any, Dict, List
 
 
 class MaxPrime:
-    """MaxPrime."""
+    """
+    MaxPrime.
+
+    Attributes:
+        nums: a list of integers.
+        max_number: max number with the max count of prime factors.
+        max_value: max count of prime factors.
+    """
 
     def __init__(self, input_func: Any) -> None:
         """
-        Given random number of input strings; returns list of 10 integer numbers.
+        Given random number of input strings; Inits list of 10 integer numbers.
 
         Args:
             input_func: a function for generating input numbers.
-
-        Returns:
-            a list of integers.
         """
         nums = []
         while True:
@@ -51,6 +55,12 @@ class MaxPrime:
             if len(nums) == 10:
                 break
         self.nums = nums
+        self.max_number: int
+        self.max_value: int
+
+    def __repr__(self) -> str:
+        """Return max count of prime factors for the max number."""
+        return f"{self.max_number} {self.max_value}"
 
     @staticmethod
     def is_prime(num: int):
@@ -100,24 +110,16 @@ class MaxPrime:
                     factor_num[number] += 1
         return factor_num
 
-    def main(self) -> str:
-        """
-        Given 10 numbers from the input; prints max count of prime factors for the max number.
-
-        Args:
-            input_func: a function for generating input numbers.
-
-        Returns:
-            max count of prime factors for the max number.
-        """
+    def main(self):
+        """Given 10 numbers from the input; calculate max count of prime factors for the max number."""
         numbers = self.nums
         prime_list = self.get_prime_list(numbers)
         factor_count = self.get_prime_count(numbers, prime_list)
-        max_value = max(factor_count.values())
-        keys = [key for key, value in factor_count.items() if value == max_value]
-        return f"{max(keys)} {max_value}"
+        self.max_value = max(factor_count.values())
+        keys = [key for key, value in factor_count.items() if value == self.max_value]
+        self.max_number = max(keys)
 
 
 if __name__ == "__main__":  # pragma: no cover
     max_prime = MaxPrime(input)
-    print(max_prime.main())
+    print(max_prime)

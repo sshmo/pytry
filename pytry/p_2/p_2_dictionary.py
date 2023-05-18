@@ -6,10 +6,22 @@ from pytry.p_2.p_2_base import BaseScoreBoard
 
 
 class DictScoreBoard(BaseScoreBoard):
-    """DictScoreBoard."""
+    """
+    DictScoreBoard.
+
+    Attributes:
+        games: List of games. like [{"A": "1", "B": "1"}, {"A": "1", "C": "3"}].
+        countries: Set of countries. like {"A", "B", "C"}.
+        score_board: score_board data structure.
+    """
 
     def __init__(self, input_func: Any) -> None:
-        """Given input_func; returns games, countries, initial_score_board."""
+        """
+        Given input_func; Inits games, countries and score_board.
+
+        Args:
+            input_func: A function for generating input data.
+        """
         super().__init__(input_func)
         self.score_board = {}
         for country in self.countries:
@@ -27,8 +39,9 @@ class DictScoreBoard(BaseScoreBoard):
         """Get row."""
         return scores[country]
 
-    def create_score_board_result(self, score_board_data: Dict[str, Dict]) -> str:
-        """Given scores dictionary; create score board for all countries."""
+    def __repr__(self) -> str:
+        """Given scores dictionary; create score board representation for all countries."""
+        score_board_data: Dict = self.score_board
         soretd_countries = sorted(
             score_board_data, key=lambda x: (-score_board_data[x]["points"], score_board_data[x]["country"])
         )
@@ -42,4 +55,4 @@ class DictScoreBoard(BaseScoreBoard):
 
 if __name__ == "__main__":  # pragma: no cover
     score_board = DictScoreBoard(input)
-    print(score_board.main())
+    print(score_board)

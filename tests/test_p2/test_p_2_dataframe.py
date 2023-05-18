@@ -53,9 +53,8 @@ def test_update_scores():
 
 def test_score_board_dataframe_main():
 
-    score_board_result = score_board.main()
-
-    assert score_board_result == (
+    score_board.main()
+    assert score_board.__repr__() == (
         "Spain  wins:1 , loses:0 , draws:2 , goal difference:2 , points:5\n"
         "Iran  wins:1 , loses:1 , draws:1 , goal difference:0 , points:4\n"
         "Portugal  wins:1 , loses:1 , draws:1 , goal difference:0 , points:4\n"
