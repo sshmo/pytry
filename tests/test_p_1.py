@@ -1,15 +1,18 @@
 import random
 from string import ascii_letters
 
-from pytry.p_1 import max_prime
+from pytry.p_1 import MaxPrime
 
 
 def mock_input():
     return str(random.choice([random.choice(ascii_letters), random.randint(1, 1000)]))
 
 
+max_prime = MaxPrime(mock_input)
+
+
 def test_get_nums():
-    nums = max_prime.get_nums(mock_input)
+    nums = max_prime.nums
     assert len(nums) == 10
     for num in nums:
         assert isinstance(num, int)
@@ -45,10 +48,12 @@ def test_get_prime_count():
 def test_max_prime_main():
 
     data = [123, 43, 54, 12, 76, 84, 98, 678, 543, 231]
-    assert max_prime.main(lambda: str(data.pop())) == "678 3"
+    max_prime = MaxPrime(lambda: str(data.pop()))
+    assert max_prime.main() == "678 3"
 
 
 def test_max_prime_big_number_main():
 
     data = [123, 43, 54, 12, 76, 84, 98, 678, 543, 231, 123451]
-    assert max_prime.main(lambda: str(data.pop())) == "678 3"
+    max_prime = MaxPrime(lambda: str(data.pop()))
+    assert max_prime.main() == "678 3"

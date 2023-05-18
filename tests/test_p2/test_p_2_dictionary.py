@@ -1,8 +1,25 @@
-from pytry.p_2.p_2_dictionary import score_board
+from pytry.p_2.p_2_dictionary import DictScoreBoard
+
+data = [
+    "2-2",
+    "2-1",
+    "1-2",
+    "2-2",
+    "3-1",
+    "2-1",
+    "Iran - Spain",
+    "Iran - Portugal",
+    "Iran - Morocco",
+    "Spain - Portugal",
+    "Spain - Morocco",
+    "Portugal - Morocco",
+]
+
+score_board = DictScoreBoard(lambda: str(data.pop()))
 
 
 def test_get_other_side():
-    game = {"A": 1, "B": 1}
+    game = {"A": "1", "B": "1"}
     country = "A"
     assert score_board.get_other_side(game, country) == "B"
 
@@ -10,19 +27,19 @@ def test_get_other_side():
 def test_update_scores():
     scores = {"A": {"wins": 0, "loses": 0, "draws": 0, "goal_difference": 0, "points": 0, "alpha_points": 0}}
 
-    game = {"A": 1, "B": 1}
+    game = {"A": "1", "B": "1"}
     scores = score_board.update_country_scores(scores, game, "A", "B")
     assert scores["A"]["draws"] == 1
     assert scores["A"]["points"] == 1
     assert scores["A"]["goal_difference"] == 0
 
-    game = {"A": 2, "C": 1}
+    game = {"A": "2", "C": "1"}
     scores = score_board.update_country_scores(scores, game, "A", "C")
     assert scores["A"]["wins"] == 1
     assert scores["A"]["points"] == 4
     assert scores["A"]["goal_difference"] == 1
 
-    game = {"A": 1, "D": 3}
+    game = {"A": "1", "D": "3"}
     scores = score_board.update_country_scores(scores, game, "A", "D")
     assert scores["A"]["loses"] == 1
     assert scores["A"]["points"] == 4
@@ -30,22 +47,8 @@ def test_update_scores():
 
 
 def test_score_board_dictionary_main():
-    data = [
-        "2-2",
-        "2-1",
-        "1-2",
-        "2-2",
-        "3-1",
-        "2-1",
-        "Iran - Spain",
-        "Iran - Portugal",
-        "Iran - Morocco",
-        "Spain - Portugal",
-        "Spain - Morocco",
-        "Portugal - Morocco",
-    ]
 
-    score_board_result = score_board.main(lambda: str(data.pop()))
+    score_board_result = score_board.main()
 
     assert score_board_result == (
         "Spain  wins:1 , loses:0 , draws:2 , goal difference:2 , points:5\n"
