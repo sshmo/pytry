@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from pytry.p_2.p_2_base import BaseScoreBoard
+from pytry.general.world_cup.base import BaseScoreBoard
 
 
 class DFScoreBoard(BaseScoreBoard):

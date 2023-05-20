@@ -1,7 +1,7 @@
 import random
 from string import ascii_letters
 
-from pytry.p_1 import MaxPrime
+from pytry.general.max_prime import MaxPrime
 
 
 def mock_input():

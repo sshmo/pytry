@@ -1,1 +1,1 @@
-"""the place to test pytry."""
+"""pytry test module."""
