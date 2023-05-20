@@ -2,24 +2,28 @@
 
 import re
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List
 
 
 class BaseScoreBoard(ABC):
-    """BaseScoreBoard."""
+    """
+    BaseScoreBoard.
 
-    @staticmethod
-    def get_data(input_func: Any, game_count: int = 6) -> Tuple[List[Dict], Set[str]]:
+    Attributes:
+        games: List of games. like [{"A": "1", "B": "1"}, {"A": "1", "C": "3"}].
+        countries: Set of countries. like {"A", "B", "C"}.
+        score_board: score_board data structure.
+    """
+
+    @abstractmethod
+    def __init__(self, input_func: Any, game_count=6) -> None:
         """
-        Given input strings; returns games.
+        Given input_func; Inits games, countries and score_board.
 
         Args:
             input_func: A function for generating input data.
-
-        Returns:
-            List of games. like [{"A": 1, "B": 1}, {"A": 1, "C": 3}].
-            Set of countries. like {"A", "B", "C"}.
         """
+        super().__init__()
         games = []
         country_pairs = []
         countries = set()
@@ -45,7 +49,14 @@ class BaseScoreBoard(ABC):
             countries.add(country_pairs[i][0])
             countries.add(country_pairs[i][1])
 
-        return games, countries
+        self.games, self.countries = games, countries
+        self.score_board: Any
+
+    @staticmethod
+    @abstractmethod
+    def get_row(scores, country: str):  # pragma: no cover
+        """Get row."""
+        return {}
 
     @staticmethod
     def get_other_side(game: Dict[str, str], country: str) -> str:
@@ -53,7 +64,7 @@ class BaseScoreBoard(ABC):
         Get other side in a game.
 
         Args:
-            game: a dictionary like {"A": 1, "B": 1}.
+            game: a dictionary like {"A": "1", "B": "1"}.
             country: the country which the scores are calculated for like "A".
 
         Returns:
@@ -64,24 +75,13 @@ class BaseScoreBoard(ABC):
         other_side = game_sides[0]
         return other_side
 
-    @staticmethod
-    @abstractmethod
-    def initialize_score_board_data(countries):
-        """Given games and countries; initialize scores for all countries."""
-
-    @staticmethod
-    @abstractmethod
-    def get_row(scores, country: str):  # pragma: no cover
-        """Get row."""
-        return {}
-
     def update_country_scores(self, scores, game: Dict[str, str], country: str, other_side: str):
         """
         Update scores of a country for a single game.
 
         Args:
             scores: score board data structure for each country.
-            game: a dictionary like {"A": 1, "B": 1}.
+            game: a dictionary like {"A": "1", "B": "1"}.
             country: the country which the scores are calculated for like "A".
             other_side: the other country like "B".
 
@@ -103,19 +103,9 @@ class BaseScoreBoard(ABC):
 
         return scores
 
-    def create_score_board_data(self, scores, games, countries):
-        """Given games and countries; calculate scores for all countries."""
-        for country in countries:
-            for game in games:
-                if country in game:
-                    other_side = self.get_other_side(game, country)
-                    scores = self.update_country_scores(scores, game, country, other_side)
-
-        return scores
-
     @staticmethod
     def fill_score_board(score_board_result, country, row):
-        """fill_score_board data."""
+        """Fill score board data row by row."""
         score_board_result += (
             f"{country}  "
             f"wins:{row['wins']} , "
@@ -126,15 +116,12 @@ class BaseScoreBoard(ABC):
         )
         return score_board_result
 
-    @abstractmethod
-    def create_score_board_result(self, score_board_data):
-        """Given scores; create score board for all countries."""
-
-    def main(self, input_func: Any):
-        """Given data from the input; prints score board result."""
-        games, countries = self.get_data(input_func)
-        initial_scores = self.initialize_score_board_data(countries)
-        score_board_data = self.create_score_board_data(initial_scores, games, countries)
-        score_board_result = self.create_score_board_result(score_board_data)
-
-        return score_board_result
+    def main(self):
+        """Given data from the input; calculates score board."""
+        score_board, games, countries = self.score_board, self.games, self.countries
+        for country in countries:
+            for game in games:
+                if country in game:
+                    other_side = self.get_other_side(game, country)
+                    score_board = self.update_country_scores(score_board, game, country, other_side)
+        self.score_board = score_board
