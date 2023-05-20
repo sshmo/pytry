@@ -122,4 +122,5 @@ class MaxPrime:
 
 if __name__ == "__main__":  # pragma: no cover
     max_prime = MaxPrime(input)
+    max_prime.main()
     print(max_prime)
