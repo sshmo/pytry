@@ -50,4 +50,5 @@ class DFScoreBoard(BaseScoreBoard):
 
 if __name__ == "__main__":  # pragma: no cover
     score_board = DFScoreBoard(input)
+    score_board.main()
     print(score_board)

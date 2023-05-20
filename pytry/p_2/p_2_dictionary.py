@@ -55,4 +55,5 @@ class DictScoreBoard(BaseScoreBoard):
 
 if __name__ == "__main__":  # pragma: no cover
     score_board = DictScoreBoard(input)
+    score_board.main()
     print(score_board)
