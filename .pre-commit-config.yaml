@@ -6,13 +6,49 @@ repos:
     rev: v4.4.0
     hooks:
     - id: check-yaml
+    - id: check-merge-conflict
+      name: Check that merge conflicts are not being committed
+    - id: debug-statements
+      name: Detect accidentally committed debug statements
+    - id: check-builtin-literals
+      name: Require literal syntax when initializing Python builtin types
+    - id: detect-private-key
+      name: Detect if private key is added to the repository
     - id: end-of-file-fixer
+      name: Make sure that there is an empty line at the end
+    - id: mixed-line-ending
+      name: Detect if mixed line ending is used (\r vs. \r\n)
     - id: trailing-whitespace
+      name: Remove trailing whitespace at end of line
+    - id: fix-encoding-pragma
+      name: Remove encoding header from Python files
+      args:
+        - --remove
 
   - repo: meta
     hooks:
     - id: check-hooks-apply
     - id: check-useless-excludes
+
+  - repo: https://github.com/ikamensh/flynt
+    rev: '0.77'
+    hooks:
+      - id: flynt
+        name: Run flynt string format converter for Python
+        args:
+         # If flynt detects too long text it ignores it. So we set a very large limit to make it easy
+         # to split the text by hand. Too long lines are detected by flake8 (below),
+         # so the user is informed to take action.
+         - --line-length
+         - '99999'
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.2
+    hooks:
+      - id: codespell
+        name: Run codespell to check for common misspellings in files
+        language: python
+        types: [text]
 
   - repo: https://github.com/psf/black
     rev: 22.3.0
@@ -25,6 +61,11 @@ repos:
     hooks:
       - id: isort
         types: [python]
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.269'
+    hooks:
+      - id: ruff
 
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
@@ -45,6 +86,12 @@ repos:
         files: pytry/
         args: ["-c", "pyproject.toml"]
         additional_dependencies: [".[toml]"]
+
+  - repo: https://github.com/rubik/xenon
+    rev: v0.9.0
+    hooks:
+      - id: xenon
+        args: [ --max-absolute B, --max-modules A, --max-average A ]
 
   - repo: local
     hooks:
