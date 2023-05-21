@@ -23,10 +23,7 @@ def test_get_prime_list():
     prime_list = max_prime.get_prime_list([1, 2, 32])
     assert len(prime_list) == len(primes)
     assert 1 not in prime_list
-    for num in prime_list:
-        assert num in primes
-    for num in primes:
-        assert num in prime_list
+    assert all([False for x in primes if x not in prime_list])
 
 
 def test_get_prime_count():
@@ -37,12 +34,7 @@ def test_get_prime_count():
 
     factor_num = max_prime.get_prime_count(nums, prime_list)
     assert len(factor_num) == len(factor_num_dict)
-    for key, value in factor_num.items():
-        assert factor_num_dict[key] == value
-    for key, value in factor_num_dict.items():
-        assert factor_num[key] == value
-
-    assert factor_num
+    assert all([factor_num_dict[key] == value for key, value in factor_num.items()])
 
 
 def test_max_prime_main():
