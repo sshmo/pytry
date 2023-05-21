@@ -3,5 +3,7 @@ test:
 
 dev:
 	pre-commit run -a
-	pytype
+	mypy ../pytry
+	pytype ../pytry
+	radon cc -a -nb ../pytry
 	pytest -svv --log-cli-level=INFO --cov=pytry/ tests/

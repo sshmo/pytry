@@ -1,3 +1,5 @@
+import pytest
+
 from pytry.general.world_cup.dictionary import DictScoreBoard
 
 data = [
@@ -24,26 +26,24 @@ def test_get_other_side():
     assert score_board.get_other_side(game, country) == "B"
 
 
-def test_update_scores():
-    scores = {"A": {"wins": 0, "loses": 0, "draws": 0, "goal_difference": 0, "points": 0, "alpha_points": 0}}
+scores = {"A": {"wins": 0, "loses": 0, "draws": 0, "goal_difference": 0, "points": 0, "alpha_points": 0}}
+expected = [
+    ([{"A": "1", "B": "1"}, scores, "B"], [0, 0, 1, 0, 1]),
+    ([{"A": "2", "C": "1"}, scores, "C"], [1, 0, 1, 1, 4]),
+    ([{"A": "1", "D": "3"}, scores, "D"], [1, 1, 1, -1, 4]),
+]
 
-    game = {"A": "1", "B": "1"}
-    scores = score_board.update_country_scores(scores, game, "A", "B")
-    assert scores["A"]["draws"] == 1
-    assert scores["A"]["points"] == 1
-    assert scores["A"]["goal_difference"] == 0
 
-    game = {"A": "2", "C": "1"}
-    scores = score_board.update_country_scores(scores, game, "A", "C")
-    assert scores["A"]["wins"] == 1
-    assert scores["A"]["points"] == 4
-    assert scores["A"]["goal_difference"] == 1
+@pytest.mark.parametrize("game_data, expected", expected)
+def test_update_scores(game_data, expected):
 
-    game = {"A": "1", "D": "3"}
-    scores = score_board.update_country_scores(scores, game, "A", "D")
-    assert scores["A"]["loses"] == 1
-    assert scores["A"]["points"] == 4
-    assert scores["A"]["goal_difference"] == -1
+    scores = score_board.update_country_scores(game_data[1], game_data[0], "A", game_data[2])
+
+    assert scores["A"]["wins"] == expected[0]
+    assert scores["A"]["loses"] == expected[1]
+    assert scores["A"]["draws"] == expected[2]
+    assert scores["A"]["goal_difference"] == expected[3]
+    assert scores["A"]["points"] == expected[4]
 
 
 def test_score_board_dictionary_main():

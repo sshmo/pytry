@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from pytry.general.world_cup.dataframe import DFScoreBoard
 
@@ -26,29 +27,26 @@ def test_get_other_side():
     assert score_board.get_other_side(game, country) == "B"
 
 
-def test_update_scores():
-    scores = pd.DataFrame(
-        data=[[0, 0, 0, 0, 0]], columns=["wins", "loses", "draws", "goal_difference", "points"], index=["A"]
-    )
+scores = pd.DataFrame(
+    data=[[0, 0, 0, 0, 0]], columns=["wins", "loses", "draws", "goal_difference", "points"], index=["A"]
+)
+expected = [
+    ([{"A": "1", "B": "1"}, scores, "B"], [0, 0, 1, 0, 1]),
+    ([{"A": "2", "C": "1"}, scores, "C"], [1, 0, 1, 1, 4]),
+    ([{"A": "1", "D": "3"}, scores, "D"], [1, 1, 1, -1, 4]),
+]
 
-    game = {"A": "1", "B": "1"}
-    scores = score_board.update_country_scores(scores, game, "A", "B")
 
-    assert scores.at["A", "draws"] == 1
-    assert scores.at["A", "points"] == 1
-    assert scores.at["A", "goal_difference"] == 0
+@pytest.mark.parametrize("game_data, expected", expected)
+def test_update_scores(game_data, expected):
 
-    game = {"A": "2", "C": "1"}
-    scores = score_board.update_country_scores(scores, game, "A", "C")
-    assert scores.at["A", "wins"] == 1
-    assert scores.at["A", "points"] == 4
-    assert scores.at["A", "goal_difference"] == 1
+    scores = score_board.update_country_scores(game_data[1], game_data[0], "A", game_data[2])
 
-    game = {"A": "1", "D": "3"}
-    scores = score_board.update_country_scores(scores, game, "A", "D")
-    assert scores.at["A", "loses"] == 1
-    assert scores.at["A", "points"] == 4
-    assert scores.at["A", "goal_difference"] == -1
+    assert scores.at["A", "wins"] == expected[0]
+    assert scores.at["A", "loses"] == expected[1]
+    assert scores.at["A", "draws"] == expected[2]
+    assert scores.at["A", "goal_difference"] == expected[3]
+    assert scores.at["A", "points"] == expected[4]
 
 
 def test_score_board_dataframe_main():

@@ -29,6 +29,9 @@ addopts = "--cov --cov-report term-missing"
 [tool.coverage.run]
 omit = ["*/migrations/*", "*/tests/*", "*/venv/*"]
 
+[tool.ruff]
+line-length = 120
+
 [tool.flake8]
 ignore = ['E203', 'W503']
 max-line-length = 120
@@ -37,4 +40,4 @@ max-line-length = 120
 # Space-separated list of files or directories to process.
 inputs = ['pytry']
 # Comma or space separated list of error names to ignore.
-disable = ['pyi-error', 'import-error']
+# disable = ['pyi-error', 'import-error']
