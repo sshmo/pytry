@@ -24,43 +24,55 @@ Output:
 678 3
 """
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+
+from pytry.general.base import Base
 
 
-class MaxPrime:
+class MaxPrime(Base):
     """
     MaxPrime.
 
     Attributes:
-        nums: a list of integers.
-        max_number: max number with the max count of prime factors.
-        max_value: max count of prime factors.
+        input_count: int : number of input integers.
+        key_data: a list of integers.
+        key_stats : Dict : key value count of prime factors for each number.
     """
 
     def __init__(self, input_func: Any) -> None:
         """
-        Given random number of input strings; Inits list of 10 integer numbers.
+        Given random number of input strings; Inits MaxPrime attributes.
 
         Args:
             input_func: a function for generating input numbers.
         """
-        nums = []
+        self.input_count = 10
+
+        self.key_data = self._get_key_data(input_func, self.input_count)
+        self.key_stats: dict = {}
+        for key in self.key_data:
+            self.key_stats[key] = 0
+
+    @staticmethod
+    def _get_key_data(input_func: Any, input_count: int) -> List[int]:
+        key_data = []
         while True:
-            num = input_func()
-            num = int(num) if num.isdigit() else None
+            num_input: str = input_func()
+            num: Optional[int] = int(num_input) if num_input.isdigit() else None
             if num:
-                nums.append(num)
+                key_data.append(num)
             else:
                 print("Not a number!")
-            if len(nums) == 10:
+            if len(key_data) == input_count:
                 break
-        self.nums = nums
-        self.max_number: int
-        self.max_value: int
+        return key_data
 
     def __repr__(self) -> str:
         """Return max count of prime factors for the max number."""
-        return f"{self.max_number} {self.max_value}"
+        max_value = max(self.key_stats.values())
+        keys = [key for key, value in self.key_stats.items() if value == max_value]
+        max_number = max(keys)
+        return f"{max_number} {max_value}"
 
     @staticmethod
     def is_prime(num: int):
@@ -90,34 +102,19 @@ class MaxPrime:
                 primes.append(i)
         return primes
 
-    @staticmethod
-    def get_prime_count(nums: List, prime_list) -> Dict[int, int]:
-        """
-        Given numbers list, returns count of prime factors for each number.
-
-        Args:
-            nums: all input numbers.
-            prime_list: all prime numbers lower than max number.
-
-        Returns:
-            count of prime factors for each number.
-        """
-        factor_num = {}
-        for number in nums:
-            factor_num[number] = 0
-            for prime in prime_list:
-                if number % prime == 0:
-                    factor_num[number] += 1
-        return factor_num
+    def update_stats(self, key_stats, key) -> Dict[int, int]:
+        """Update count of of prime factors for a number."""
+        key_stats[key] += 1
+        return key_stats
 
     def main(self):
-        """Given 10 numbers from the input; calculate max count of prime factors for the max number."""
-        numbers = self.nums
+        """Given numbers; calculate count of prime factors for all numbers."""
+        numbers = self.key_data
         prime_list = self.get_prime_list(numbers)
-        factor_count = self.get_prime_count(numbers, prime_list)
-        self.max_value = max(factor_count.values())
-        keys = [key for key, value in factor_count.items() if value == self.max_value]
-        self.max_number = max(keys)
+        for number in numbers:
+            for prime in prime_list:
+                if number % prime == 0:
+                    self.key_stats = self.update_stats(self.key_stats, number)
 
 
 if __name__ == "__main__":  # pragma: no cover

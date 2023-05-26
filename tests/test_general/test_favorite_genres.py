@@ -5,7 +5,7 @@ import pytest
 from pytry.general.favorite_genres import FavoriteGeneres
 
 
-@pytest.fixture(name="data")
+@pytest.fixture(name="favorite_genres_data")
 def input_data() -> List:
     return [
         "hossein Horror Romance Comedy",
@@ -17,18 +17,17 @@ def input_data() -> List:
     ]
 
 
-def test_favorite_genres_init(data: List):
+def test_favorite_genres_init(favorite_genres_data: List):
 
-    favorite_genres = FavoriteGeneres(lambda: str(data.pop()))
+    favorite_genres = FavoriteGeneres(lambda: str(favorite_genres_data.pop()))
     assert favorite_genres
-    assert favorite_genres.favorite_gen
-    assert favorite_genres.number_of_people
+    assert favorite_genres.key_data
+    assert favorite_genres.input_count
 
 
-def test_favorite_genres_main(data: List):
-    favorite_genres = FavoriteGeneres(lambda: str(data.pop()))
+def test_favorite_genres_main(favorite_genres_data: List):
+    favorite_genres = FavoriteGeneres(lambda: str(favorite_genres_data.pop()))
     favorite_genres.main()
-    print(favorite_genres)
     assert favorite_genres.__repr__() == (
         "Action : 3\nComedy : 2\nHistory : 2\nHorror : 2\nRomance : 2\nAdventure : 1\n"
     )

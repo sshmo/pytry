@@ -32,33 +32,37 @@ Adventure : 1
 
 from typing import Any, Dict, List
 
+from pytry.general.base import Base
 
-class FavoriteGeneres:
+
+class FavoriteGeneres(Base):
     """
     FavoriteGeneres.
 
     Attributes:
-        generes: List of generes.
-        number_of_people: number of people.
-        genere_board: genere_board data structure.
+        input_count: int : number of genere row data.
+        keys: Set[str] set of generes for which we calculate and represent statistics.
+        key_data: data structure for saving genere data.
+        key_stats : Any : data structure for saving genere statistics.
     """
 
     def __init__(self, input_func: Any) -> None:
         """
-        Given the number of people; Inits number_of_people, favorite_gen and genere_board.
+        Given the number of people; Inits FavoriteGeneres attributes.
 
         Args:
             input_func: a function for generating input numbers.
         """
-        self.generes = set()
-        self.number_of_people = self._get_number_of_people(input_func)
-        self.favorite_gen = self._get_favorite_gen(input_func, self.number_of_people)
-        for _, value in self.favorite_gen.items():
-            self.generes.update(set(value))
+        super().__init__(input_func)
+        self.keys = set()
+        self.input_count = self._get_number_of_people(input_func)
+        self.key_data = self._get_key_data(input_func, self.input_count)
+        for _, value in self.key_data.items():
+            self.keys.update(set(value))
 
-        self.genere_board = {}
-        for genere in self.generes:
-            self.genere_board[genere] = {
+        self.key_stats = {}
+        for genere in self.keys:
+            self.key_stats[genere] = {
                 "genere": genere,
                 "count": 0,
             }
@@ -74,36 +78,48 @@ class FavoriteGeneres:
         return number_of_people
 
     @staticmethod
-    def _get_favorite_gen(input_func: Any, number_of_people: int) -> Dict[str, List[str]]:
-        favorite_gen = {}
+    def _get_key_data(input_func: Any, input_count: int) -> Dict[str, List[str]]:
+        key_data = {}
         while True:
             data: str = input_func()
             datal_list = data.split(" ")
             name = datal_list[0]
-            favorite_gen[name] = datal_list[1:]
-            if len(favorite_gen) == number_of_people:
+            key_data[name] = datal_list[1:]
+            if len(key_data) == input_count:
                 break
-        return favorite_gen
+        return key_data
+
+    @staticmethod
+    def fill_board(key_repr, key, row):
+        """Fill genere stats data row by row."""
+        key_repr += f"{key} : {row['count']}\n"
+        return key_repr
 
     def __repr__(self) -> str:
-        """Given genere_board; create genere_board representation for all generes."""
-        genere_board_data: Dict = self.genere_board
+        """Given genere_board; create genere stat representation for all generes."""
+        genere_board_data: Dict = self.key_stats
         soretd_generes = sorted(
             genere_board_data, key=lambda x: (-genere_board_data[x]["count"], genere_board_data[x]["genere"])
         )
         result = ""
         for genere in soretd_generes:
-            result += f"{genere} : {self.genere_board[genere]['count']}\n"
+            row = genere_board_data[genere]
+            result = self.fill_board(result, genere, row)
 
         return result
 
+    def update_stats(self, key_stats, key):
+        """Update stats of a genere for a single row."""
+        key_stats[key]["count"] += 1
+        return key_stats
+
     def main(self):
-        """Given data from the input; create genere board representation for all generes."""
-        for genere in self.generes:
-            for _, list_value in self.favorite_gen.items():
+        """Given genere data from the input; calculate genere stats for all generes."""
+        for genere in self.keys:
+            for _, list_value in self.key_data.items():
                 for value in list_value:
                     if genere == value:
-                        self.genere_board[genere]["count"] += 1
+                        self.key_stats = self.update_stats(self.key_stats, genere)
 
 
 if __name__ == "__main__":  # pragma: no cover
