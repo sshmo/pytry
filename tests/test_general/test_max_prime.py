@@ -12,7 +12,7 @@ max_prime = MaxPrime(mock_input)
 
 
 def test_get_nums():
-    nums = max_prime.nums
+    nums = max_prime.key_data
     assert len(nums) == 10
     for num in nums:
         assert isinstance(num, int)
@@ -28,13 +28,12 @@ def test_get_prime_list():
 
 def test_get_prime_count():
 
-    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    prime_list = [2, 3, 5, 7]
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    max_prime = MaxPrime(lambda: str(data.pop()))
     factor_num_dict = {1: 0, 2: 1, 3: 1, 4: 1, 5: 1, 6: 2, 7: 1, 8: 1, 9: 1, 10: 2}
-
-    factor_num = max_prime.get_prime_count(nums, prime_list)
-    assert len(factor_num) == len(factor_num_dict)
-    assert all([factor_num_dict[key] == value for key, value in factor_num.items()])
+    max_prime.main()
+    assert len(max_prime.key_stats) == len(factor_num_dict)
+    assert all([factor_num_dict[key] == value for key, value in max_prime.key_stats.items()])
 
 
 def test_max_prime_main():
