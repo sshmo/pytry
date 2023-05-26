@@ -69,7 +69,7 @@ class BaseScoreBoard(Base):
         self.input_count = 6
 
         country_pairs = self._get_country_pairs(input_func, self.input_count)
-        scores = self._get_scores(input_func, self.input_count)
+        scores = self._get_key_data(input_func, self.input_count)
 
         for i in range(0, self.input_count):
             games.append({country_pairs[i][0]: scores[i][0], country_pairs[i][1]: scores[i][1]})
@@ -80,25 +80,25 @@ class BaseScoreBoard(Base):
         self.key_stats: Any
 
     @staticmethod
-    def _get_country_pairs(input_func: Any, game_count: int) -> List[List[str]]:
+    def _get_country_pairs(input_func: Any, input_count: int) -> List[List[str]]:
         country_pairs = []
         while True:
             raw_country_pair: str = input_func()
             if re.match(r"\w+\s-\s\w+", raw_country_pair):
                 country_pair = raw_country_pair.split(" - ")
                 country_pairs.append(country_pair)
-            if len(country_pairs) == game_count:
+            if len(country_pairs) == input_count:
                 break
         return country_pairs
 
     @staticmethod
-    def _get_scores(input_func: Any, game_count: int) -> List[List[str]]:
+    def _get_key_data(input_func: Any, input_count: int):
         scores = []
         while True:
             raw_scores: str = input_func()
             if re.match(r"\d+-\d+", raw_scores):
                 scores.append(raw_scores.split("-"))
-            if len(scores) == game_count:
+            if len(scores) == input_count:
                 break
         return scores
 

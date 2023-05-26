@@ -46,6 +46,7 @@ class MaxPrime(Base):
         Args:
             input_func: a function for generating input numbers.
         """
+        super().__init__(input_func)
         self.input_count = 10
 
         self.key_data = self._get_key_data(input_func, self.input_count)
