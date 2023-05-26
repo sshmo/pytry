@@ -55,7 +55,7 @@ class FavoriteGeneres(Base):
         """
         super().__init__(input_func)
         self.keys = set()
-        self.input_count = self._get_number_of_people(input_func)
+        self.input_count = self.get_input_count(input_func)
         self.key_data = self._get_key_data(input_func, self.input_count)
         for _, value in self.key_data.items():
             self.keys.update(set(value))
@@ -68,14 +68,9 @@ class FavoriteGeneres(Base):
             }
 
     @staticmethod
-    def _get_number_of_people(input_func: Any) -> int:
-        while True:
-            num: str = input_func()
-            number_of_people = int(num) if num.isdigit() else None
-            if number_of_people:
-                break
-            print("Not a number!")
-        return number_of_people
+    def get_input_count(input_func: Any) -> int:
+        """get_input_count."""
+        return Base.get_input_count(input_func)
 
     @staticmethod
     def _get_key_data(input_func: Any, input_count: int) -> Dict[str, List[str]]:

@@ -1,7 +1,7 @@
 """base implementation."""
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Set
+from typing import Any, Set
 
 
 class Base(ABC):
@@ -16,7 +16,7 @@ class Base(ABC):
     """
 
     @abstractmethod
-    def __init__(self, input_func: Any, *args) -> None:
+    def __init__(self, input_func: Any) -> None:
         """
         Given input_func; Inits Base attributes.
 
@@ -26,7 +26,23 @@ class Base(ABC):
         self.input_count: int
         self.keys: Set[str]
         self.key_stats: Any
-        self.key_results: Dict
+        self.key_data: Any
+
+    @staticmethod
+    @abstractmethod
+    def _get_key_data(input_func: Any, input_count: int):
+        """get_key_data."""
+
+    @staticmethod
+    def get_input_count(input_func: Any) -> int:
+        """get_input_count."""
+        while True:
+            num: str = input_func()
+            input_count = int(num) if num.isdigit() else None
+            if input_count:
+                break
+            print("Not a number!")
+        return input_count
 
     def __repr__(self) -> str:  # pragma: no cover
         """Given key_stats; create key_stats representation for all keys."""
