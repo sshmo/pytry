@@ -91,7 +91,7 @@ class Olympiad(Base):
     def update_stats(self, key_stats, key):
         """Not Implemented."""
 
-    def main(self):
+    def main(self) -> None:
         """Not Implemented."""
 
 

@@ -108,7 +108,7 @@ class FavoriteGeneres(Base):
         key_stats[key]["count"] += 1
         return key_stats
 
-    def main(self):
+    def main(self) -> None:
         """Given genere data from the input; calculate genere stats for all generes."""
         for genere in self.keys:
             for _, list_value in self.key_data.items():

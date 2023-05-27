@@ -108,7 +108,7 @@ class MaxPrime(Base):
         key_stats[key] += 1
         return key_stats
 
-    def main(self):
+    def main(self) -> None:
         """Given numbers; calculate count of prime factors for all numbers."""
         numbers = self.key_data
         prime_list = self.get_prime_list(numbers)

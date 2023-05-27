@@ -189,7 +189,7 @@ class BaseScoreBoard(Base):
         )
         return score_board_result
 
-    def main(self):
+    def main(self) -> None:
         """Given data from the input; calculates score board."""
         score_board, games, countries = self.key_stats, self.games, self.keys
         for country in countries:
