@@ -58,5 +58,5 @@ class Base(ABC):
         """
 
     @abstractmethod
-    def main(self):
+    def main(self) -> None:
         """Given key_data from the input; calculates key_stats."""
