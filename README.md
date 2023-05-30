@@ -2,9 +2,12 @@
 
 [![codecov.io](https://codecov.io/github/sshmo/pytry/coverage.svg?branch=master)](https://codecov.io/github/sshmo/pytry?branch=master)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![CodeQL](https://github.com/sshmo/pytry/actions/workflows/codeql.yml/badge.svg)](https://github.com/sshmo/pytry/actions/workflows/codeql.yml)
+[![pre-commit](https://github.com/sshmo/pytry/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/sshmo/pytry/actions/workflows/pre-commit.yml)
 
 pytry is a place to try python.
 
+**Documentation**: <a href="https://sshmo.github.io/pytry/" target="_blank">https://sshmo.github.io/pytry/</a>
 ## developmant
 
 ``` sh
