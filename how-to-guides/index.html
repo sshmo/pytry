@@ -215,8 +215,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-add-two-numbers" class="md-nav__link">
-    How To Add Two Numbers?
+  <a href="#usage" class="md-nav__link">
+    Usage
   </a>
   
 </li>
@@ -286,8 +286,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-add-two-numbers" class="md-nav__link">
-    How To Add Two Numbers?
+  <a href="#usage" class="md-nav__link">
+    Usage
   </a>
   
 </li>
@@ -312,36 +312,18 @@
 <strong>problem-oriented</strong> approach. You'll tackle common
 tasks that you might have, with the help of the code
 provided in this project.</p>
-<h2 id="how-to-add-two-numbers">How To Add Two Numbers?</h2>
-<p>You have two numbers and you need to add them together.
-You're in luck! The <code>calculator</code> package can help you
-get this done.</p>
-<p>Download the code from this GitHub repository and place
-the <code>calculator/</code> folder in the same directory as your
-Python script:</p>
-<pre><code>your_project/
-│
-├── calculator/
-│   ├── __init__.py
-│   └── calculations.py
-│
-└── your_script.py
+<h2 id="usage">Usage</h2>
+<p>First download the code from pytry GitHub repository and install it:</p>
+<pre><code class="language-sh">    git clone git@github.com:sshmo/pytry.git
+    cd pytry
+    pip install .
 </code></pre>
-<p>Inside of <code>your_script.py</code> you can now import the
-<code>add()</code> function from the <code>calculator.calculations</code>
-module:</p>
-<pre><code># your_script.py
-from calculator.calculations import add
+<p>Usage:</p>
+<pre><code class="language-python">    from pytry.general.world_cup_dataframe import DFScoreBoard
+    score_board = DFScoreBoard(input)
+    score_board.main()
+    print(score_board)
 </code></pre>
-<p>After you've imported the function, you can use it
-to add any two numbers that you need to add:</p>
-<pre><code># your_script.py
-from calculator.calculations import add
-
-print(add(20, 22))  # OUTPUT: 42.0
-</code></pre>
-<p>You're now able to add any two numbers, and you'll
-always get a <code>float</code> as a result.</p>
 
 
 
