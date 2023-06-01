@@ -4,18 +4,40 @@ on:
     branches:
       - master
 
+env:
+  PYTHON_VERSION: 3.x
+
+permissions:
+  contents: write
+
 jobs:
-  build:
-    name: Deploy docs
+  documentation:
+    name: Build documentation
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout master
+
+      - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@1.26
+      - name: Set up Python runtime
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
+      - name: Install Python dependencies
+        run: |
+          pip install \
+            "mkdocs==1.4.3" \
+            "mkdocstrings-python==1.1.0" \
+            "mkdocstrings==0.22.0" \
+            "mkdocs-material==9.1.15"
+
+      - name: Deploy documentation
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: mkdocs.yml
-          REQUIREMENTS: requirements/doc.txt
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: |
+          mkdocs gh-deploy --force
+          mkdocs --version
