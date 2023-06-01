@@ -1,4 +1,14 @@
-site_name: pytry Docs
+site_name: pytry docs
+
+site_description: 'pytry documentations'
+
+site_author: 'Shabbir Mousavi'
+
+docs_dir: docs/
+
+repo_name: 'sshmo/pytry'
+
+repo_url: 'https://github.com/sshmo/pytry'
 
 theme:
   name: "material"
