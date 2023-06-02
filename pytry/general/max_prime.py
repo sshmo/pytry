@@ -1,27 +1,28 @@
-"""
+"""Max primes.
+
 The max number that has the highest number of prime factors.
 
-Write a program that:
+    Write a program that:
 
     reads 10 numbers from the input.
-    prints the number that has the highest number of prime factors \
+    prints the number that has the highest number of prime factors
     along with the number of its prime factors in the output.
     If there are several numbers in this state, print the largest one.
 
-Input:
-123
-43
-54
-12
-76
-84
-98
-678
-543
-231
+    Input:
+    123
+    43
+    54
+    12
+    76
+    84
+    98
+    678
+    543
+    231
 
-Output:
-678 3
+    Output:
+    678 3
 """
 
 from typing import Any, Dict, List, Optional
@@ -30,27 +31,25 @@ from pytry.general.base import Base
 
 
 class MaxPrime(Base):
-    """
-    MaxPrime.
+    """MaxPrime.
 
     Attributes:
-        input_count: int : number of input integers.
+        input_count: number of input integers.
         key_data: a list of integers.
-        key_stats : Dict : key value count of prime factors for each number.
+        key_stats: key value count of prime factors for each number.
     """
 
     def __init__(self, input_func: Any) -> None:
-        """
-        Given random number of input strings; Inits MaxPrime attributes.
+        """Given random number of input strings; Inits MaxPrime attributes.
 
         Args:
             input_func: a function for generating input numbers.
         """
         super().__init__(input_func)
-        self.input_count = 10
+        self.input_count: int = 10
 
-        self.key_data = self._get_key_data(input_func, self.input_count)
-        self.key_stats: dict = {}
+        self.key_data: List[int] = self._get_key_data(input_func, self.input_count)
+        self.key_stats: Dict[int, int] = {}
         for key in self.key_data:
             self.key_stats[key] = 0
 
@@ -76,23 +75,23 @@ class MaxPrime(Base):
         return f"{max_number} {max_value}"
 
     @staticmethod
-    def is_prime(num: int):
-        """
-        Check if number is prime.
+    def is_prime(num: int) -> bool:
+        """Check if number is prime.
 
         Args:
             num: an integer.
+
         Returns:
             true if prime else false.
         """
         return all(num % x != 0 for x in range(2, int(num**0.5) + 1)) if num > 1 else False
 
     def get_prime_list(self, nums: List[int]) -> List[int]:
-        """
-        Given numbers list, returns all prime numbers lower than max number.
+        """Given numbers list, returns all prime numbers lower than max number.
 
         Args:
             nums: all input numbers.
+
         Returns:
             all prime numbers lower than max number.
         """

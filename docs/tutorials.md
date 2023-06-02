@@ -1,18 +1,18 @@
-# Tutorials
+# Usage
 
-This part of the project documentation focuses on a
-**learning-oriented** approach. You'll learn how to
-get started with the code in this project.
+First download the code from pytry GitHub repository and install it:
 
-> **Note:** Expand this section by considering the
-> following points:
+``` sh
+    git clone git@github.com:sshmo/pytry.git
+    cd pytry
+    pip install .
+```
 
-- Help newcomers with getting started
-- Teach readers about your library by making them
-    write code
-- Inspire confidence through examples that work for
-    everyone, repeatably
-- Give readers an immediate sense of achievement
-- Show concrete examples, no abstractions
-- Provide the minimum necessary explanation
-- Avoid any distractions
+Usage:
+
+``` python
+    from pytry.general.world_cup_dataframe import DFScoreBoard
+    score_board = DFScoreBoard(input)
+    score_board.main()
+    print(score_board)
+```

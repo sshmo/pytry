@@ -1,4 +1,4 @@
-site_name: pytry docs
+site_name: pytry
 
 site_description: 'pytry documentations'
 
@@ -14,11 +14,15 @@ theme:
   name: "material"
 
 plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - literate-nav
+  - section-index
   - mkdocstrings
 
 nav:
-  - pytry docs: index.md
-  - tutorials.md
-  - How-To Guides: how-to-guides.md
-  - reference.md
-  - explanation.md
+  - Home: index.md
+  - Usage: tutorials.md
+  - prtry: reference/

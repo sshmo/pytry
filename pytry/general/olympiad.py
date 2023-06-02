@@ -1,5 +1,4 @@
-"""
-Computer Olympiad list.
+"""Computer Olympiad list.
 
 Ahmed is sending the final list of the names of those accepted
 to the Computer Olympiad to the results review committee
@@ -11,35 +10,36 @@ and the gender of the people is also specified at the beginning of each name.
 The standard form of names is that the first letter of the name is uppercase
 and the rest of the letters of the name are lowercase.
 
-Write a program that reads the number, name, gender, and language of the accepted candidates
-from the input and separates the names based on their gender,
-standardizes them, and writes the language in front of each name with
-which they participated in the competition.
-(In the output, the female gender should be printed first and then the male gender.
-The names of each gender should be printed in the order of the English alphabet.)
+    Write a program that:
 
-Input:
-4
-m.hosSein.python
-f.miNa.C
-m.aHMad.C++
-f.Sara.java
+    reads the number, name, gender, and language of the accepted candidates
+    from the input and separates the names based on their gender,
+    standardizes them, and writes the language in front of each name with
+    which they participated in the competition.
+    (In the output, the female gender should be printed first and then the male gender.
+    The names of each gender should be printed in the order of the English alphabet.)
 
-Output:
-f Mina C
-f Sara java
-m Ahmad C++
-m Hossein python
+    Input:
+    4
+    m.hosSein.python
+    f.miNa.C
+    m.aHMad.C++
+    f.Sara.java
+
+    Output:
+    f Mina C
+    f Sara java
+    m Ahmad C++
+    m Hossein python
 """
 
-from typing import Any, List
+from typing import Any, Dict, List
 
 from pytry.general.base import Base
 
 
 class Olympiad(Base):
-    """
-    Olympiad.
+    """Olympiad.
 
     Attributes:
         input_count: int : number of people.
@@ -47,19 +47,17 @@ class Olympiad(Base):
     """
 
     def __init__(self, input_func: Any) -> None:
-        """
-        Given the number of people; Inits Olympiad attributes.
+        """Given the number of people; Inits Olympiad attributes.
 
         Args:
             input_func: a function for generating input numbers.
         """
         super().__init__(input_func)
-        self.keys = set()
-        self.input_count = self.get_input_count(input_func)
-        self.key_data = self._get_key_data(input_func, self.input_count)
+        self.input_count: int = self.get_input_count(input_func)
+        self.key_data: Dict[str, Dict[str, str]] = self._get_key_data(input_func, self.input_count)
 
     @staticmethod
-    def _get_key_data(input_func: Any, input_count: int):
+    def _get_key_data(input_func: Any, input_count: int) -> Dict[str, Dict[str, str]]:
         key_data = {}
         while True:
             data: str = input_func()
