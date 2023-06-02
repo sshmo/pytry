@@ -32,7 +32,10 @@ jobs:
             "mkdocs==1.4.3" \
             "mkdocstrings-python==1.1.0" \
             "mkdocstrings==0.22.0" \
-            "mkdocs-material==9.1.15"
+            "mkdocs-material==9.1.15" \
+            "mkdocs-gen-files==0.5.0" \
+            "mkdocs-literate-nav==0.6.0" \
+            "mkdocs-section-index==0.3.5"
 
       - name: Deploy documentation
         env:
