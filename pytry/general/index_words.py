@@ -1,27 +1,30 @@
-"""
-Index words.
+"""Index words.
 
-Write a program that prints index words (words that start with capital letters)
-along with the word number (the most common word) from a text.
-If a word with this feature is not found in the text, it will print None in the output.
-You should not consider the words at the beginning of the sentence as index words.
-(number the words starting from one)
+Words that start with capital letters.
 
-Numbers are not counted except index words.
-The only sign used in the sentence is the comma.
-Be sure to remove the dot or comma at the end of the word.
+    Write a program that:
 
-Input:
-The Persian League is the largest sport event dedicated to the deprived areas of Iran.
-The Persian League promotes peace and friendship.
-This video was captured by one of our heroes who wishes peace.
+    prints index words (words that start with capital letters)
+    along with the word number (the most common word) from a text.
+    If a word with this feature is not found in the text, it will print None in the output.
+    You should not consider the words at the beginning of the sentence as index words.
+    (number the words starting from one)
 
-Output:
-2:Persian
-3:League
-15:Iran
-17:Persian
-18:League
+    Numbers are not counted except index words.
+    The only sign used in the sentence is the comma.
+    Be sure to remove the dot or comma at the end of the word.
+
+    Input:
+    The Persian League is the largest sport event dedicated to the deprived areas of Iran.
+    The Persian League promotes peace and friendship.
+    This video was captured by one of our heroes who wishes peace.
+
+    Output:
+    2:Persian
+    3:League
+    15:Iran
+    17:Persian
+    18:League
 """
 
 
@@ -31,8 +34,7 @@ from pytry.general.base import Base
 
 
 class IndexWords(Base):
-    """
-    IndexWords.
+    """IndexWords.
 
     Attributes:
         key_data: input text corpus.
@@ -40,14 +42,14 @@ class IndexWords(Base):
     """
 
     def __init__(self, input_func: Any) -> None:
-        """
-        Given the number of people; Inits IndexWords attributes.
+        """Given the number of people; Inits IndexWords attributes.
 
         Args:
             input_func: a function for generating input numbers.
         """
         super().__init__(input_func)
         self.key_data: str = input_func()
+        self.key_stats: Dict[int, str]
 
     @staticmethod
     def _get_key_data(input_func: Any, input_count: int):
@@ -68,7 +70,7 @@ class IndexWords(Base):
     def main(self) -> None:
         """Given key_data; calculates index word stats."""
         words = self.key_data.split(" ")
-        self.key_stats: Dict[int, str] = {
+        self.key_stats = {
             i + 1: word
             for i, word in enumerate(words)
             if i != 0 and word == word.capitalize() and not (words[i - 1].endswith("."))

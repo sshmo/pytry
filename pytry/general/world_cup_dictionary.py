@@ -1,13 +1,12 @@
-"""World Cup score board dictionary implementation."""
+"""World Cup score board dictionary."""
 
-from typing import Any, Dict
+from typing import Any, Dict, List, Set
 
 from pytry.general.world_cup_base import BaseScoreBoard
 
 
 class DictScoreBoard(BaseScoreBoard):
-    """
-    DictScoreBoard.
+    """DictScoreBoard.
 
     Attributes:
         games: List of games. like [{"A": "1", "B": "1"}, {"A": "1", "C": "3"}].
@@ -16,14 +15,13 @@ class DictScoreBoard(BaseScoreBoard):
     """
 
     def __init__(self, input_func: Any) -> None:
-        """
-        Given input_func; Inits key_stats.
+        """Given input_func; Inits key_stats.
 
         Args:
             input_func: A function for generating input data.
         """
         super().__init__(input_func)
-        self.key_stats = {}
+        self.key_stats: Dict[str, Dict] = {}
         for country in self.keys:
             self.key_stats[country] = {
                 "country": country,
@@ -34,6 +32,8 @@ class DictScoreBoard(BaseScoreBoard):
                 "points": 0,
                 "count": 0,
             }
+        self.games: List[Dict[str, str]]
+        self.keys: Set[str]
 
     @staticmethod
     def get_row(key_stats: Dict[str, Dict], key: str):

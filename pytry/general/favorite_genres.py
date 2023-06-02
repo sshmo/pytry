@@ -1,66 +1,65 @@
-"""
-Favorite genres.
+"""Favorite genres.
 
 In a survey, moviegoers were asked to list 3 of their favorite genres.
 They are given 6 different genres to choose from, including:
 
 Horror, Romance, Comedy, History, Adventure, Action.
 
-Write a program that takes the number of people,
-then takes the name of each person with their favorite genres
-and prints the name of each genre and the number of people interested in that genre
-in the order of the most interested in the output.
-(If the level of interest in different genres is the same,
-print in the order of the English alphabet in the output.)
-If no genre is selected, consider its value as zero and print the name and number 0 in the output.
+    Write a program that:
 
-Input:
-4
-hossein Horror Romance Comedy
-mohsen Horror Action Comedy
-mina Adventure Action History
-sajjad Romance History Action
+    takes the number of people,
+    then takes the name of each person with their favorite genres
+    and prints the name of each genre and the number of people interested in that genre
+    in the order of the most interested in the output.
+    (If the level of interest in different genres is the same,
+    print in the order of the English alphabet in the output.)
+    If no genre is selected, consider its value as zero and print the name and number 0 in the output.
 
-Output:
-Action : 3
-Comedy : 2
-History : 2
-Horror : 2
-Romance : 2
-Adventure : 1
+    Input:
+    4
+    hossein Horror Romance Comedy
+    mohsen Horror Action Comedy
+    mina Adventure Action History
+    sajjad Romance History Action
+
+    Output:
+    Action : 3
+    Comedy : 2
+    History : 2
+    Horror : 2
+    Romance : 2
+    Adventure : 1
 """
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Set
 
 from pytry.general.base import Base
 
 
 class FavoriteGeneres(Base):
-    """
-    FavoriteGeneres.
+    """FavoriteGeneres.
 
     Attributes:
-        input_count: int : number of genere row data.
-        keys: Set[str] set of generes for which we calculate and represent statistics.
+        input_count: number of genere row data.
+        keys: set of generes for which we calculate and represent statistics.
         key_data: data structure for saving genere data.
-        key_stats : Any : data structure for saving genere statistics.
+        key_stats: data structure for saving genere statistics.
     """
 
     def __init__(self, input_func: Any) -> None:
-        """
-        Given the number of people; Inits FavoriteGeneres attributes.
+        """Given the number of people; Inits FavoriteGeneres attributes.
 
         Args:
             input_func: a function for generating input numbers.
         """
         super().__init__(input_func)
-        self.keys = set()
-        self.input_count = self.get_input_count(input_func)
-        self.key_data = self._get_key_data(input_func, self.input_count)
+        self.keys: Set[str] = set()
+        self.input_count: int = self.get_input_count(input_func)
+        self.key_data: Dict[str, List[str]] = self._get_key_data(input_func, self.input_count)
         for _, value in self.key_data.items():
             self.keys.update(set(value))
 
-        self.key_stats = {}
+        self.key_stats: Dict[str, Dict[str, Any]] = {}
         for genere in self.keys:
             self.key_stats[genere] = {
                 "genere": genere,
@@ -103,7 +102,7 @@ class FavoriteGeneres(Base):
 
         return result
 
-    def update_stats(self, key_stats, key):
+    def update_stats(self, key_stats, key) -> Dict[str, Dict[str, Any]]:
         """Update stats of a genere for a single row."""
         key_stats[key]["count"] += 1
         return key_stats

@@ -1,4 +1,5 @@
-"""World Cup score board dataframe implementation."""
+"""World Cup score board dataframe."""
+from typing import Any, Dict, List, Set
 
 import pandas as pd
 
@@ -6,8 +7,7 @@ from pytry.general.world_cup_base import BaseScoreBoard
 
 
 class DFScoreBoard(BaseScoreBoard):
-    """
-    DFScoreBoard.
+    """DFScoreBoard.
 
     Attributes:
         games: List of games. like [{"A": "1", "B": "1"}, {"A": 1, "C": "3"}].
@@ -15,9 +15,8 @@ class DFScoreBoard(BaseScoreBoard):
         key_stats: data structure for saving wins, loses, draws, goal_difference, points, count for each country.
     """
 
-    def __init__(self, input_func) -> None:
-        """
-        Given input_func; Inits key_stats.
+    def __init__(self, input_func: Any) -> None:
+        """Given input_func; Inits key_stats.
 
         Args:
             input_func: A function for generating input data.
@@ -31,6 +30,9 @@ class DFScoreBoard(BaseScoreBoard):
         self.key_stats = pd.DataFrame(
             initial_data, columns=["wins", "loses", "draws", "goal_difference", "points", "count"], index=index_labels
         )
+        self.games: List[Dict[str, str]]
+        self.keys: Set[str]
+        self.key_stats: pd.DataFrame
 
     @staticmethod
     def get_row(key_stats: pd.DataFrame, key: str):

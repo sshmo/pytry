@@ -1,24 +1,22 @@
-"""base implementation."""
+"""Base implementation."""
 
 from abc import ABC, abstractmethod
 from typing import Any, Set
 
 
 class Base(ABC):
-    """
-    Base.
+    """Base.
 
     Attributes:
-        input_count: int : number of key row data.
-        keys: Set[str] set of keys for which we calculate and represent statistics.
+        input_count: number of key row data.
+        keys: set of keys for which we calculate and represent statistics.
         key_data: data structure for saving key data.
-        key_stats : Any : data structure for calculating key statistics.
+        key_stats: data structure for calculating key statistics.
     """
 
     @abstractmethod
     def __init__(self, input_func: Any) -> None:
-        """
-        Given input_func; Inits Base attributes.
+        """Given input_func; Inits Base attributes.
 
         Args:
             input_func: A function for generating input data.
@@ -49,9 +47,8 @@ class Base(ABC):
         return ""
 
     @abstractmethod
-    def update_stats(self, key_stats, key):
-        """
-        Update stats of a key for a single row.
+    def update_stats(self, key_stats, key) -> Any:
+        """Update stats of a key for a single row.
 
         Returns:
             updated stats for each key
