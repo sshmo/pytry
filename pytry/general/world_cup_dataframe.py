@@ -1,5 +1,5 @@
 """World Cup score board dataframe."""
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, Optional, Set
 
 import pandas as pd
 
@@ -10,18 +10,21 @@ class DFScoreBoard(BaseScoreBoard):
     """DFScoreBoard.
 
     Attributes:
+        input_count: number of games.
         games: List of games. like [{"A": "1", "B": "1"}, {"A": 1, "C": "3"}].
         keys: Set of countries. like {"A", "B", "C"}.
         key_stats: data structure for saving wins, loses, draws, goal_difference, points, count for each country.
     """
 
-    def __init__(self, input_func: Any) -> None:
+    def __init__(self, input_func: Any, default_count: Optional[int] = None) -> None:
         """Given input_func; Inits key_stats.
 
         Args:
             input_func: A function for generating input data.
+            default_count: default number of keys if input_count is not specified.
         """
-        super().__init__(input_func)
+        super().__init__(input_func, default_count)
+        self.input_count: int
         initial_data = []
         index_labels = []
         for country in self.keys:

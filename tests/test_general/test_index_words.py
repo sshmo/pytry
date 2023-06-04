@@ -16,12 +16,12 @@ def input_data() -> List:
 
 def test_index_words_init(index_words_data: List):
 
-    index_words = IndexWords(lambda: str(index_words_data.pop()))
+    index_words = IndexWords(lambda: str(index_words_data.pop()), 1)
     assert index_words
     assert index_words.key_data
 
 
 def test_index_words_main(index_words_data: List):
-    index_words = IndexWords(lambda: str(index_words_data.pop()))
+    index_words = IndexWords(lambda: str(index_words_data.pop()), 1)
     index_words.main()
     assert index_words.__repr__() == "2:Persian\n3:League\n15:Iran\n17:Persian\n18:League\n"
