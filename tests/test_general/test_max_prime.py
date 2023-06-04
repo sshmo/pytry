@@ -2,6 +2,8 @@ import random
 from string import ascii_letters
 
 import pytest
+from hypothesis import example, given
+from hypothesis import strategies as st
 
 from pytry.general.max_prime import MaxPrime
 
@@ -10,7 +12,7 @@ def mock_input():
     return str(random.choice([random.choice(ascii_letters), random.randint(1, 1000)]))
 
 
-max_prime = MaxPrime(mock_input, 10)
+max_prime = MaxPrime(mock_input, 1)
 
 
 def test_invalid_default():
@@ -21,7 +23,7 @@ def test_invalid_default():
 
 def test_get_nums():
     nums = max_prime.key_data
-    assert len(nums) == 10
+    assert len(nums) == 1
     for num in nums:
         assert isinstance(num, int)
 
@@ -58,3 +60,13 @@ def test_max_prime_big_number_main():
     max_prime = MaxPrime(lambda: str(data.pop()), 10)
     max_prime.main()
     assert max_prime.__repr__() == "678 3"
+
+
+@given(data=st.lists(st.integers(max_value=5000)))
+@example([1, 2, 0, 2, -1])
+@example([])
+def test_max_prime_main_with_hypothesis(data):
+    len_data = len(list(set([num for num in data if num > 0])))
+    max_prime = MaxPrime(lambda: str(data.pop()), len_data)
+    max_prime.main()
+    assert len(max_prime.key_stats) == len_data
