@@ -1,6 +1,8 @@
 import random
 from string import ascii_letters
 
+import pytest
+
 from pytry.general.max_prime import MaxPrime
 
 
@@ -9,6 +11,12 @@ def mock_input():
 
 
 max_prime = MaxPrime(mock_input, 10)
+
+
+def test_invalid_default():
+    with pytest.raises(ValueError) as excinfo:
+        MaxPrime(mock_input, -1)
+    assert str(excinfo.value) == "Invalid value for default count: -1"
 
 
 def test_get_nums():

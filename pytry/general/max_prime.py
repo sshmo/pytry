@@ -34,12 +34,12 @@ class MaxPrime(Base):
     """MaxPrime.
 
     Attributes:
-        input_count: number of input integers.
+        input_count: number of entry integers.
         key_data: a list of integers.
         key_stats: key value count of prime factors for each number.
     """
 
-    def __init__(self, input_func: Any, default_count: int = 0) -> None:
+    def __init__(self, input_func: Any, default_count: Optional[int] = None) -> None:
         """Given random number of input strings; Inits MaxPrime attributes.
 
         Args:
@@ -47,6 +47,7 @@ class MaxPrime(Base):
             default_count: default number of keys if input_count is not specified.
         """
         super().__init__(input_func, default_count)
+        self.input_count: int
         self.key_data: List[int] = self._get_key_data(input_func, self.input_count)
         self.key_stats: Dict[int, int] = {}
         for key in self.key_data:

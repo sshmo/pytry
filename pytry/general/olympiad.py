@@ -33,7 +33,7 @@ and the rest of the letters of the name are lowercase.
     m Hossein python
 """
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from pytry.general.base import Base
 
@@ -42,11 +42,11 @@ class Olympiad(Base):
     """Olympiad.
 
     Attributes:
-        input_count: int : number of people.
+        input_count: int : number of entry people.
         key_data: data structure for saving people data.
     """
 
-    def __init__(self, input_func: Any, default_count: int = 0) -> None:
+    def __init__(self, input_func: Any, default_count: Optional[int] = None) -> None:
         """Given the number of people; Inits Olympiad attributes.
 
         Args:
@@ -54,6 +54,7 @@ class Olympiad(Base):
             default_count: default number of keys if input_count is not specified.
         """
         super().__init__(input_func, default_count)
+        self.input_count: int
         self.key_data: Dict[str, Dict[str, str]] = self._get_key_data(input_func, self.input_count)
 
     @staticmethod

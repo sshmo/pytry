@@ -31,7 +31,7 @@ Horror, Romance, Comedy, History, Adventure, Action.
     Adventure : 1
 """
 
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, Optional, Set
 
 from pytry.general.base import Base
 
@@ -40,13 +40,13 @@ class FavoriteGeneres(Base):
     """FavoriteGeneres.
 
     Attributes:
-        input_count: number of genere row data.
+        input_count: number of entry data.
         keys: set of generes for which we calculate and represent statistics.
         key_data: data structure for saving genere data.
         key_stats: data structure for saving genere statistics.
     """
 
-    def __init__(self, input_func: Any, default_count: int = 0) -> None:
+    def __init__(self, input_func: Any, default_count: Optional[int] = None) -> None:
         """Given the number of people; Inits FavoriteGeneres attributes.
 
         Args:
@@ -54,6 +54,7 @@ class FavoriteGeneres(Base):
             default_count: default number of keys if input_count is not specified.
         """
         super().__init__(input_func, default_count)
+        self.input_count: int
         self.keys: Set[str] = set()
         self.key_data: Dict[str, List[str]] = self._get_key_data(input_func, self.input_count)
         for _, value in self.key_data.items():

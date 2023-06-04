@@ -1,28 +1,30 @@
 """Base implementation."""
 
 from abc import ABC, abstractmethod
-from typing import Any, Set
+from typing import Any, Optional, Set
 
 
 class Base(ABC):
     """Base.
 
     Attributes:
-        input_count: number of key row data.
+        input_count: number of entry data.
         keys: set of keys for which we calculate and represent statistics.
         key_data: data structure for saving key data.
         key_stats: data structure for calculating key statistics.
     """
 
     @abstractmethod
-    def __init__(self, input_func: Any, default_count: int = 0) -> None:
+    def __init__(self, input_func: Any, default_count: Optional[int]) -> None:
         """Given input_func; Inits Base attributes.
 
         Args:
             input_func: A function for generating input data.
             default_count: default number of keys if input_count is not specified.
         """
-        self.input_count: int = default_count if default_count else self.get_input_count(input_func)
+        if isinstance(default_count, int) and default_count < 0:
+            raise ValueError(f"Invalid value for default count: {default_count}")
+        self.input_count: int = default_count if default_count is not None else self.get_input_count(input_func)
         self.keys: Set[str]
         self.key_stats: Any
         self.key_data: Any
@@ -38,9 +40,9 @@ class Base(ABC):
         while True:
             num: str = input_func()
             input_count = int(num) if num.isdigit() else None
-            if input_count:
+            if input_count and input_count > 0:
                 break
-            print("Not a number!")
+            print("Invalid number!")
         return input_count
 
     def __repr__(self) -> str:  # pragma: no cover

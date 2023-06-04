@@ -42,7 +42,7 @@ Iran, Portugal, Spain and Morocco are present in Group B of the World Cup.
 
 import re
 from abc import abstractmethod
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, Optional, Set
 
 from pytry.general.base import Base
 
@@ -51,13 +51,14 @@ class BaseScoreBoard(Base):
     """BaseScoreBoard.
 
     Attributes:
+        input_count: number of games.
         games: List of games. like [{"A": "1", "B": "1"}, {"A": "1", "C": "3"}].
         keys: Set of countries. like {"A", "B", "C"}.
         key_stats: data structure for saving wins, loses, draws, goal_difference, points, count for each country.
     """
 
     @abstractmethod
-    def __init__(self, input_func: Any, default_count: int = 0) -> None:
+    def __init__(self, input_func: Any, default_count: Optional[int] = None) -> None:
         """Given input_func; Inits games, BaseScoreBoard attributes.
 
         Args:
@@ -65,6 +66,7 @@ class BaseScoreBoard(Base):
             default_count: default number of keys if input_count is not specified.
         """
         super().__init__(input_func, default_count)
+        self.input_count: int
         games = []
         countries = set()
         country_pairs = self._get_country_pairs(input_func, self.input_count)
