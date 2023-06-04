@@ -46,8 +46,8 @@ class MaxPrime(Base):
             input_func: a function for generating input numbers.
             default_count: default number of keys if input_count is not specified.
         """
-        super().__init__(input_func, default_count)
         self.input_count: int
+        super().__init__(input_func, default_count)
         self.key_data: List[int] = self._get_key_data(input_func, self.input_count)
         self.key_stats: Dict[int, int] = {}
         for key in self.key_data:
@@ -55,16 +55,15 @@ class MaxPrime(Base):
 
     @staticmethod
     def _get_key_data(input_func: Any, input_count: int) -> List[int]:
-        key_data = []
-        while True:
+        key_data: List = []
+        while input_count - len(key_data):
             num_input: str = input_func()
             num: Optional[int] = int(num_input) if num_input.isdigit() else None
-            if num:
+            if num and num > 0:
                 key_data.append(num)
+                key_data = list(set(key_data))  # deduplicate key_data
             else:
                 print("Invalid number!")
-            if len(key_data) == input_count:
-                break
         return key_data
 
     def __repr__(self) -> str:
@@ -95,11 +94,12 @@ class MaxPrime(Base):
         Returns:
             all prime numbers lower than max number.
         """
-        max_num = max(nums) + 1
         primes = []
-        for i in range(2, max_num):
-            if self.is_prime(i):
-                primes.append(i)
+        if nums:
+            max_num = max(nums) + 1
+            for i in range(2, max_num):
+                if self.is_prime(i):
+                    primes.append(i)
         return primes
 
     def update_stats(self, key_stats, key) -> Dict[int, int]:
