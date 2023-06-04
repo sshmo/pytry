@@ -826,8 +826,8 @@ Output:
 <span class="sd">            input_func: a function for generating input numbers.</span>
 <span class="sd">            default_count: default number of keys if input_count is not specified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_key_data</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key_stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span>
@@ -835,16 +835,15 @@ Output:
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_key_data</span><span class="p">(</span><span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-        <span class="n">key_data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">key_data</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">input_count</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">key_data</span><span class="p">):</span>
             <span class="n">num_input</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">input_func</span><span class="p">()</span>
             <span class="n">num</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_input</span><span class="p">)</span> <span class="k">if</span> <span class="n">num_input</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="n">num</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num</span> <span class="ow">and</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">key_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+                <span class="n">key_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">key_data</span><span class="p">))</span>  <span class="c1"># deduplicate key_data</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid number!&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key_data</span><span class="p">)</span> <span class="o">==</span> <span class="n">input_count</span><span class="p">:</span>
-                <span class="k">break</span>
         <span class="k">return</span> <span class="n">key_data</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -875,11 +874,12 @@ Output:
 <span class="sd">        Returns:</span>
 <span class="sd">            all prime numbers lower than max number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">max_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">primes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_num</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_prime</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
-                <span class="n">primes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">max_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_num</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_prime</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                    <span class="n">primes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">primes</span>
 
     <span class="k">def</span> <span class="nf">update_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_stats</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
@@ -979,8 +979,8 @@ Output:
 <span class="sd">        input_func: a function for generating input numbers.</span>
 <span class="sd">        default_count: default number of keys if input_count is not specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_key_data</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">key_stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span>
@@ -1007,12 +1007,12 @@ Output:
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/max_prime.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
+<span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return max count of prime factors for the max number.&quot;&quot;&quot;</span>
     <span class="n">max_value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_stats</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_stats</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">max_value</span><span class="p">]</span>
@@ -1082,7 +1082,8 @@ Output:
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/max_prime.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
+<span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
@@ -1105,11 +1106,12 @@ Output:
 <span class="sd">    Returns:</span>
 <span class="sd">        all prime numbers lower than max number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">max_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">primes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_num</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_prime</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
-            <span class="n">primes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nums</span><span class="p">:</span>
+        <span class="n">max_num</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_prime</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                <span class="n">primes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">primes</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -1179,7 +1181,8 @@ Output:
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/max_prime.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
+<span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
@@ -1188,8 +1191,7 @@ Output:
 <span class="normal">83</span>
 <span class="normal">84</span>
 <span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if number is prime.</span>
 
