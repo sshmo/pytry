@@ -24,7 +24,7 @@ def input_data() -> List:
 
 
 def test_dictionary_get_other_side(world_cup_dataframe_data: List):
-    score_board = DictScoreBoard(lambda: str(world_cup_dataframe_data.pop()))
+    score_board = DictScoreBoard(lambda: str(world_cup_dataframe_data.pop()), 6)
     game = {"A": "1", "B": "1"}
     country = "A"
     assert score_board.get_other_side(game, country) == "B"
@@ -41,7 +41,7 @@ expected = [
 @pytest.mark.parametrize("game_data, expected", expected)
 def test_dictionary_update_game(game_data, expected, world_cup_dataframe_data: List):
 
-    score_board = DictScoreBoard(lambda: str(world_cup_dataframe_data.pop()))
+    score_board = DictScoreBoard(lambda: str(world_cup_dataframe_data.pop()), 6)
     row = score_board.update_game(game_data["row"], "A", game_data["game"], game_data["other_side"])
 
     assert row["wins"] == expected[0]
@@ -52,7 +52,7 @@ def test_dictionary_update_game(game_data, expected, world_cup_dataframe_data: L
 
 
 def test_score_board_dictionary_main(world_cup_dataframe_data: List):
-    score_board = DictScoreBoard(lambda: str(world_cup_dataframe_data.pop()))
+    score_board = DictScoreBoard(lambda: str(world_cup_dataframe_data.pop()), 6)
     score_board.main()
     assert score_board.__repr__() == (
         "Spain  wins:1 , loses:0 , draws:2 , goal difference:2 , points:5\n"

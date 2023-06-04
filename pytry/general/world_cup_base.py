@@ -57,17 +57,16 @@ class BaseScoreBoard(Base):
     """
 
     @abstractmethod
-    def __init__(self, input_func: Any) -> None:
+    def __init__(self, input_func: Any, default_count: int = 0) -> None:
         """Given input_func; Inits games, BaseScoreBoard attributes.
 
         Args:
             input_func: A function for generating input data.
+            default_count: default number of keys if input_count is not specified.
         """
-        super().__init__(input_func)
+        super().__init__(input_func, default_count)
         games = []
         countries = set()
-        self.input_count = 6
-
         country_pairs = self._get_country_pairs(input_func, self.input_count)
         scores = self._get_key_data(input_func, self.input_count)
 

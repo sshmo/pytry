@@ -15,13 +15,14 @@ class Base(ABC):
     """
 
     @abstractmethod
-    def __init__(self, input_func: Any) -> None:
+    def __init__(self, input_func: Any, default_count: int = 0) -> None:
         """Given input_func; Inits Base attributes.
 
         Args:
             input_func: A function for generating input data.
+            default_count: default number of keys if input_count is not specified.
         """
-        self.input_count: int
+        self.input_count: int = default_count if default_count else self.get_input_count(input_func)
         self.keys: Set[str]
         self.key_stats: Any
         self.key_data: Any

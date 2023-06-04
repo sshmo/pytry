@@ -46,15 +46,15 @@ class FavoriteGeneres(Base):
         key_stats: data structure for saving genere statistics.
     """
 
-    def __init__(self, input_func: Any) -> None:
+    def __init__(self, input_func: Any, default_count: int = 0) -> None:
         """Given the number of people; Inits FavoriteGeneres attributes.
 
         Args:
             input_func: a function for generating input numbers.
+            default_count: default number of keys if input_count is not specified.
         """
-        super().__init__(input_func)
+        super().__init__(input_func, default_count)
         self.keys: Set[str] = set()
-        self.input_count: int = self.get_input_count(input_func)
         self.key_data: Dict[str, List[str]] = self._get_key_data(input_func, self.input_count)
         for _, value in self.key_data.items():
             self.keys.update(set(value))

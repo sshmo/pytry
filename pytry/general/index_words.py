@@ -41,13 +41,14 @@ class IndexWords(Base):
         key_stats:  data structure for saving index word position in the text corpus.
     """
 
-    def __init__(self, input_func: Any) -> None:
+    def __init__(self, input_func: Any, default_count: int = 0) -> None:
         """Given the number of people; Inits IndexWords attributes.
 
         Args:
             input_func: a function for generating input numbers.
+            default_count: default number of keys if input_count is not specified.
         """
-        super().__init__(input_func)
+        super().__init__(input_func, default_count)
         self.key_data: str = input_func()
         self.key_stats: Dict[int, str]
 

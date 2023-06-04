@@ -15,13 +15,14 @@ class DFScoreBoard(BaseScoreBoard):
         key_stats: data structure for saving wins, loses, draws, goal_difference, points, count for each country.
     """
 
-    def __init__(self, input_func: Any) -> None:
+    def __init__(self, input_func: Any, default_count: int = 0) -> None:
         """Given input_func; Inits key_stats.
 
         Args:
             input_func: A function for generating input data.
+            default_count: default number of keys if input_count is not specified.
         """
-        super().__init__(input_func)
+        super().__init__(input_func, default_count)
         initial_data = []
         index_labels = []
         for country in self.keys:
