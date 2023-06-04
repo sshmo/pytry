@@ -704,7 +704,7 @@ Output:
           <td>
                 <code>int</code>
           </td>
-          <td><p>number of input integers.</p></td>
+          <td><p>number of entry integers.</p></td>
         </tr>
         <tr>
           <td><code>key_data</code></td>
@@ -814,20 +814,20 @@ Output:
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;MaxPrime.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        input_count: number of input integers.</span>
+<span class="sd">        input_count: number of entry integers.</span>
 <span class="sd">        key_data: a list of integers.</span>
 <span class="sd">        key_stats: key value count of prime factors for each number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">default_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Given random number of input strings; Inits MaxPrime attributes.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            input_func: a function for generating input numbers.</span>
+<span class="sd">            default_count: default number of keys if input_count is not specified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
-
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_key_data</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key_stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span>
@@ -842,7 +842,7 @@ Output:
             <span class="k">if</span> <span class="n">num</span><span class="p">:</span>
                 <span class="n">key_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not a number!&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid number!&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key_data</span><span class="p">)</span> <span class="o">==</span> <span class="n">input_count</span><span class="p">:</span>
                 <span class="k">break</span>
         <span class="k">return</span> <span class="n">key_data</span>
@@ -915,7 +915,7 @@ Output:
 
 
 <h3 id="pytry.general.max_prime.MaxPrime.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -945,6 +945,16 @@ Output:
               <em>required</em>
           </td>
         </tr>
+        <tr>
+          <td><code>default_count</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[int]</code>
+          </td>
+          <td><p>default number of keys if input_count is not specified.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
     </tbody>
   </table>
 
@@ -962,15 +972,15 @@ Output:
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">default_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Given random number of input strings; Inits MaxPrime attributes.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input_func: a function for generating input numbers.</span>
+<span class="sd">        default_count: default number of keys if input_count is not specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
-
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_key_data</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">key_stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_data</span><span class="p">:</span>

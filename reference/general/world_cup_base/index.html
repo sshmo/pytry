@@ -729,6 +729,13 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
     </thead>
     <tbody>
         <tr>
+          <td><code>input_count</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>number of games.</p></td>
+        </tr>
+        <tr>
           <td><code>games</code></td>
           <td>
                 <code><span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, str]]</code>
@@ -903,27 +910,29 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
-<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseScoreBoard</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="normal">198</span>
+<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseScoreBoard</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseScoreBoard.</span>
 
 <span class="sd">    Attributes:</span>
+<span class="sd">        input_count: number of games.</span>
 <span class="sd">        games: List of games. like [{&quot;A&quot;: &quot;1&quot;, &quot;B&quot;: &quot;1&quot;}, {&quot;A&quot;: &quot;1&quot;, &quot;C&quot;: &quot;3&quot;}].</span>
 <span class="sd">        keys: Set of countries. like {&quot;A&quot;, &quot;B&quot;, &quot;C&quot;}.</span>
 <span class="sd">        key_stats: data structure for saving wins, loses, draws, goal_difference, points, count for each country.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">default_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Given input_func; Inits games, BaseScoreBoard attributes.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            input_func: A function for generating input data.</span>
+<span class="sd">            default_count: default number of keys if input_count is not specified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span>
         <span class="n">games</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">countries</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span> <span class="o">=</span> <span class="mi">6</span>
-
         <span class="n">country_pairs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_country_pairs</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
         <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_key_data</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
 
@@ -1072,7 +1081,7 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 
 
 <h3 id="pytry.general.world_cup_base.BaseScoreBoard.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
@@ -1106,13 +1115,22 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
               <em>required</em>
           </td>
         </tr>
+        <tr>
+          <td><code>default_count</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[int]</code>
+          </td>
+          <td><p>default number of keys if input_count is not specified.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/world_cup_base.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
-<span class="normal">60</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
@@ -1133,18 +1151,19 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
-<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">default_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Given input_func; Inits games, BaseScoreBoard attributes.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input_func: A function for generating input data.</span>
+<span class="sd">        default_count: default number of keys if input_count is not specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="n">default_count</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">games</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">countries</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span> <span class="o">=</span> <span class="mi">6</span>
-
     <span class="n">country_pairs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_country_pairs</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
     <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_key_data</span><span class="p">(</span><span class="n">input_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">)</span>
 
@@ -1182,8 +1201,7 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/world_cup_base.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
-<span class="normal">178</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
@@ -1193,7 +1211,8 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
-<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">fill_score_board</span><span class="p">(</span><span class="n">score_board_result</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fill score board data row by row.&quot;&quot;&quot;</span>
     <span class="n">score_board_result</span> <span class="o">+=</span> <span class="p">(</span>
@@ -1283,8 +1302,7 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/world_cup_base.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
-<span class="normal">113</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
@@ -1297,7 +1315,8 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
-<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_other_side</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">country</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get other side in a game.</span>
 
@@ -1326,8 +1345,8 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 <code class="highlight language-python"><span class="n">get_row</span><span class="p">(</span><span class="n">key_stats</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
   </span>
 
 </h3>
@@ -1339,11 +1358,11 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/world_cup_base.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
-<span class="normal">107</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">get_row</span><span class="p">(</span><span class="n">key_stats</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get row.&quot;&quot;&quot;</span>
@@ -1370,15 +1389,15 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/world_cup_base.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
-<span class="normal">191</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
-<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">198</span>
+<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Given data from the input; calculates score board.&quot;&quot;&quot;</span>
     <span class="n">score_board</span><span class="p">,</span> <span class="n">games</span><span class="p">,</span> <span class="n">countries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_stats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">games</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>
     <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
@@ -1481,8 +1500,7 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/world_cup_base.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
-<span class="normal">141</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
@@ -1498,7 +1516,8 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 <span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
-<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">other_side</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="normal">157</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">other_side</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update stats of a country for a single game.</span>
 
 <span class="sd">    Args:</span>
@@ -1609,8 +1628,7 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 
       <details class="quote">
         <summary>Source code in <code>pytry/general/world_cup_base.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
-<span class="normal">160</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
@@ -1625,7 +1643,8 @@ Morocco  wins:1 , loses:2 , draws:0 , goal difference:-2 , points:3
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_stats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">other_side</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_stats</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">other_side</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update key_stats for a single game.</span>
 
 <span class="sd">    Args:</span>
