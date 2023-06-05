@@ -5,12 +5,12 @@ Words that start with capital letters.
     Write a program that:
 
     prints index words (words that start with capital letters)
-    along with the word number (the most common word) from a text.
-    If a word with this feature is not found in the text, it will print None in the output.
+    along with the word number (nth word) from a text.
+    If a word with this feature is not found in the text, it will print "None" in the output.
     You should not consider the words at the beginning of the sentence as index words.
-    (number the words starting from one)
+    (number the words start from one.)
 
-    Numbers are not counted except index words.
+    Numbers are not counted.
     The only sign used in the sentence is the comma.
     Be sure to remove the dot or comma at the end of the word.
 
@@ -26,9 +26,7 @@ Words that start with capital letters.
     17:Persian
     18:League
 """
-
-
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from pytry.general.base import Base
 
@@ -63,18 +61,30 @@ class IndexWords(Base):
 
     def __repr__(self) -> str:
         """Given key_stats; create index word representation."""
-        stats = self.key_stats
+        if not self.key_stats:
+            return "None"
         word_repr = ""
-        sorted_rsult = sorted(stats)
+        sorted_rsult = sorted(self.key_stats)
         for ind in sorted_rsult:
-            word_repr += f"{ind}:{stats[ind].replace('.', '')}\n"
+            word_repr += f"{ind}:{self.key_stats[ind]}\n"
         return word_repr
+
+    @staticmethod
+    def _isword(word: str) -> bool:
+        return all((char.isascii() or char in ".,") for char in list(word))
+
+    def _isvalidword(self, word: str) -> bool:
+        if word and (word[0].isupper()) and self._isword(word):
+            return True
+        return False
+
+    def _isvalid(self, i: int, word: str, words: List[str]) -> bool:
+        if (i != 0) and not words[i - 1].endswith(".") and self._isvalidword(word):
+            return True
+        return False
 
     def main(self) -> None:
         """Given key_data; calculates index word stats."""
         words = self.key_data.split(" ")
-        self.key_stats = {
-            i + 1: word
-            for i, word in enumerate(words)
-            if i != 0 and word == word.capitalize() and not (words[i - 1].endswith("."))
-        }
+        key_stats = {i + 1: word for i, word in enumerate(words) if self._isvalid(i, word, words)}
+        self.key_stats = {k: v.replace(".", "").replace(",", "") for k, v in key_stats.items()}
