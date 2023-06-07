@@ -30,7 +30,7 @@ def test_index_words_main(index_words_data: List):
     assert index_words.__repr__() == "2:Persian\n3:League\n15:Iran\n17:Persian\n18:League\n"
 
 
-@given(data=st.text(ascii_letters + "., " + digits, min_size=50))
+@given(st.text(ascii_letters + "., " + digits, min_size=50))
 @example("KVhTsmA lWKEqwD GgnJUTlBExeZ F")
 @example("A ")
 @example("A. B")

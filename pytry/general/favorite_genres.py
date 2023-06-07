@@ -55,11 +55,8 @@ class FavoriteGeneres(Base):
         """
         super().__init__(input_func, default_count)
         self.input_count: int
-        self.keys: Set[str] = set()
+        self.keys: Set[str] = {"Horror", "Romance", "Comedy", "History", "Adventure", "Action"}
         self.key_data: Dict[str, List[str]] = self._get_key_data(input_func, self.input_count)
-        for _, value in self.key_data.items():
-            self.keys.update(set(value))
-
         self.key_stats: Dict[str, Dict[str, Any]] = {}
         for genere in self.keys:
             self.key_stats[genere] = {
@@ -74,14 +71,13 @@ class FavoriteGeneres(Base):
 
     @staticmethod
     def _get_key_data(input_func: Any, input_count: int) -> Dict[str, List[str]]:
-        key_data = {}
-        while True:
+        key_data: Dict = {}
+        while input_count - len(key_data):
             data: str = input_func()
-            datal_list = data.split(" ")
-            name = datal_list[0]
-            key_data[name] = datal_list[1:]
-            if len(key_data) == input_count:
-                break
+            data_list = data.split(" ")
+            if data_list:
+                name = data_list[0]
+                key_data[name] = data_list[1:]
         return key_data
 
     @staticmethod
