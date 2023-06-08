@@ -59,17 +59,16 @@ class Olympiad(Base):
 
     @staticmethod
     def _get_key_data(input_func: Any, input_count: int) -> Dict[str, Dict[str, str]]:
-        key_data = {}
-        while True:
+        key_data: Dict[str, Dict[str, str]] = {}
+        while input_count - len(key_data):
             data: str = input_func()
-            datal_list: List[str] = data.split(".")
-            program: str = datal_list.pop()
-            name: str = datal_list.pop().lower().capitalize()
-            gender: str = datal_list.pop()
+            data_list: List[str] = data.split(".")
+            if data_list:
+                program: str = data_list.pop()
+                name: str = data_list.pop().capitalize()
+                gender: str = data_list.pop()
 
             key_data[name] = {"name": name, "program": program, "gender": gender}
-            if len(key_data) == input_count:
-                break
         return key_data
 
     @staticmethod
@@ -85,7 +84,7 @@ class Olympiad(Base):
         for name in soretd_names:
             data_repr += f'{data[name]["gender"]} {data[name]["name"]} {data[name]["program"]}\n'
 
-        return data_repr
+        return data_repr.encode("utf-8", "replace").decode()
 
     def update_stats(self, key_stats, key):
         """Not Implemented."""
